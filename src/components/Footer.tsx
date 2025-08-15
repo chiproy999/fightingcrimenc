@@ -1,0 +1,95 @@
+import { Button } from "@/components/ui/button";
+
+const Footer = () => {
+  return (
+    <footer className="bg-card border-t border-emergency-red/30 py-12">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-police rounded-full flex items-center justify-center">
+                <span className="text-white font-bold">FC</span>
+              </div>
+              <h3 className="text-xl font-bold text-foreground">Fighting Crime NC</h3>
+            </div>
+            <p className="text-muted-foreground">
+              Dedicated to keeping North Carolina communities safe through 
+              crime awareness and public information.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold text-foreground mb-4">Quick Links</h4>
+            <div className="space-y-2">
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Crime News
+              </Button>
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Who's Wanted
+              </Button>
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Missing Persons
+              </Button>
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Cold Cases
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold text-foreground mb-4">Resources</h4>
+            <div className="space-y-2">
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Submit Tips
+              </Button>
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Crime Prevention
+              </Button>
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Victim Services
+              </Button>
+              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+                Community Watch
+              </Button>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-lg font-semibold text-foreground mb-4">Emergency Contacts</h4>
+            <div className="space-y-3">
+              <div>
+                <p className="text-emergency-red font-semibold">Emergency: 911</p>
+                <p className="text-muted-foreground text-sm">Immediate danger or crimes in progress</p>
+              </div>
+              <div>
+                <p className="text-police-blue font-semibold">Crime Stoppers</p>
+                <p className="text-muted-foreground text-sm">1-800-CRIMENC</p>
+              </div>
+              <div>
+                <p className="text-foreground font-semibold">Tips Hotline</p>
+                <p className="text-muted-foreground text-sm">252-408-6736</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-border mt-8 pt-8 text-center">
+          <p className="text-muted-foreground">
+            © 2024 Fighting Crime NC. All rights reserved. | 
+            <Button variant="ghost" size="sm" className="ml-1 p-0 h-auto text-police-blue hover:text-primary">
+              Privacy Policy
+            </Button> | 
+            <Button variant="ghost" size="sm" className="ml-1 p-0 h-auto text-police-blue hover:text-primary">
+              Terms of Service
+            </Button>
+          </p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Website: fightingcrimenc.com | Working together for safer communities
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
