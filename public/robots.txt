@@ -1,8 +1,11 @@
+# Fighting Crime NC - Optimized for NC Crime News & Public Safety
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 1
 
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 2
 
 User-agent: Twitterbot
 Allow: /
@@ -10,5 +13,30 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Priority crawling for crime news and wanted sections
 User-agent: *
 Allow: /
+Allow: /crime-news
+Allow: /wanted
+Allow: /missing-persons
+Allow: /submit-tips
+Allow: /contact
+Crawl-delay: 3
+
+# Block admin and private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.env
+Disallow: /config/
+
+# Sitemap location
+Sitemap: https://fightingcrimenc.com/sitemap.xml
+
+# Host preference
+Host: fightingcrimenc.com

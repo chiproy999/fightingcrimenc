@@ -1,49 +1,54 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Phone } from "lucide-react";
+import MobileMenu from "./MobileMenu";
 
 const Header = () => {
   return (
-    <header className="bg-card border-b border-emergency-red/30 sticky top-0 z-50 backdrop-blur-lg">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-police rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-lg">FC</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-foreground">Fighting Crime NC</h1>
-                <p className="text-xs text-muted-foreground">Keeping North Carolina Safe</p>
-              </div>
+    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+      <div className="container mx-auto container-mobile">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo and Title */}
+          <div className="flex items-center space-x-3">
+            <div className="bg-gradient-police p-2 rounded-lg shadow-evidence">
+              <span className="text-white font-bold text-lg sm:text-xl">FC</span>
+            </div>
+            <div>
+              <h1 className="text-lg sm:text-xl font-bold text-foreground">Fighting Crime NC</h1>
+              <p className="text-xs text-muted-foreground hidden sm:block">Keeping Communities Safe</p>
             </div>
           </div>
-          
-          <nav className="hidden md:flex items-center space-x-6">
-            <Button variant="ghost" className="text-foreground hover:text-primary">
+
+          {/* Navigation - Hidden on mobile */}
+          <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
+            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
               Home
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary">
+            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
               Crime News
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary">
+            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
               Who's Wanted
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary">
+            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
               Missing Persons
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary">
+            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
               Submit Tips
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary">
+            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
               Contact
             </Button>
           </nav>
 
-          <div className="flex items-center space-x-2">
-            <Badge variant="destructive" className="bg-emergency-red">
-              Emergency: 911
-            </Badge>
-          </div>
+          {/* Emergency Contact Badge - Desktop */}
+          <Badge variant="destructive" className="hidden sm:flex lg:hidden xl:flex items-center gap-2 px-3 py-2">
+            <Phone className="h-4 w-4" />
+            <span className="hidden md:inline">Emergency:</span> 911
+          </Badge>
+
+          {/* Mobile Menu */}
+          <MobileMenu />
         </div>
       </div>
     </header>

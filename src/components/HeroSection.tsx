@@ -4,40 +4,40 @@ import heroImage from "@/assets/hero-crime-fighting.jpg";
 const HeroSection = () => {
   return (
     <section 
-      className="relative min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      className="relative min-h-[80vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${heroImage})` }}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/90"></div>
       
-      <div className="relative z-10 container mx-auto px-4 text-center">
+      <div className="relative z-10 container mx-auto container-mobile text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground mb-4 sm:mb-6 leading-tight">
             FIGHTING CRIME
             <span className="block text-emergency-red">NEWS & WHO'S WANTED</span>
           </h1>
           
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
             Keeping North Carolina communities safe through crime awareness, 
             public information, and community cooperation.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
             <Button 
               size="lg" 
-              className="bg-gradient-police text-white hover:shadow-evidence px-8 py-6 text-lg"
+              className="bg-gradient-police text-white hover:shadow-evidence px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
             >
               View Wanted Persons
             </Button>
             <Button 
               size="lg" 
               variant="outline"
-              className="border-emergency-red text-emergency-red hover:bg-emergency-red hover:text-white px-8 py-6 text-lg"
+              className="border-emergency-red text-emergency-red hover:bg-emergency-red hover:text-white px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
             >
               Latest Crime News
             </Button>
             <Button 
               size="lg" 
-              className="bg-gradient-danger text-white hover:shadow-crime px-8 py-6 text-lg"
+              className="bg-gradient-danger text-white hover:shadow-crime px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
             >
               Submit Anonymous Tip
             </Button>
