@@ -2,8 +2,6 @@ import { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 // Lazy load non-critical components for better Core Web Vitals
-const CrimeNewsSection = lazy(() => import('./CrimeNewsSection'));
-const WantedSection = lazy(() => import('./WantedSection'));
 const Footer = lazy(() => import('./Footer'));
 
 // Loading component for better perceived performance
@@ -66,4 +64,4 @@ const CriticalContent = () => {
   );
 };
 
-export { CriticalContent, CrimeNewsSection, WantedSection, Footer, SectionLoader };
+export { CriticalContent, Footer, SectionLoader };

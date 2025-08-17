@@ -6,8 +6,6 @@ import RSSFeed from "@/components/RSSFeed";
 import ComponentErrorBoundary from "@/components/ComponentErrorBoundary";
 
 // Lazy load below-the-fold components for better performance
-const CrimeNewsSection = lazy(() => import("@/components/CrimeNewsSection"));
-const WantedSection = lazy(() => import("@/components/WantedSection"));
 const Footer = lazy(() => import("@/components/Footer"));
 
 // Loading component for lazy-loaded sections
@@ -40,19 +38,7 @@ const Index = () => {
           <RSSFeed />
         </ComponentErrorBoundary>
         
-        {/* Lazy load below-the-fold content */}
-        <ComponentErrorBoundary>
-          <Suspense fallback={<SectionLoader />}>
-            <CrimeNewsSection />
-          </Suspense>
-        </ComponentErrorBoundary>
-        
-        <ComponentErrorBoundary>
-          <Suspense fallback={<SectionLoader />}>
-            <WantedSection />
-          </Suspense>
-        </ComponentErrorBoundary>
-        
+        {/* Footer */}
         <ComponentErrorBoundary>
           <Suspense fallback={<SectionLoader />}>
             <Footer />
