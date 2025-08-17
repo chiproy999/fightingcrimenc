@@ -18,39 +18,38 @@ const SEOHead = ({
   title = "Fighting Crime NC - #1 North Carolina Crime News & Most Wanted Database",
   description = "Fighting Crime NC is North Carolina's premier crime news source. Get real-time NC crime alerts, wanted suspect information, missing persons updates, and anonymous tip reporting. Trusted by law enforcement and communities statewide.",
   keywords = "North Carolina crime news, NC wanted persons, NC public safety, North Carolina law enforcement, crime tips NC, wanted suspects North Carolina, NC sheriff department, crime prevention NC",
-  ogImage = "https://fightingcrimenc.com/images/og-crime-fighting-nc.jpg",
-  canonicalUrl = "https://fightingcrimenc.com",
+  ogImage = "/images/og-crime-fighting-nc.jpg",
+  canonicalUrl = window.location.href,
   articlePublishedTime,
   articleModifiedTime,
   articleAuthor = "Fighting Crime NC Editorial Team",
   articleSection = "Crime News",
   schemaData
 }: SEOHeadProps) => {
-  // Simplified schema data to prevent helmet errors
+  // Robust schema data with error handling
+  const safeStringify = (obj: object) => {
+    try {
+      return JSON.stringify(obj);
+    } catch (error) {
+      console.warn('Schema data serialization failed:', error);
+      return '';
+    }
+  };
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Fighting Crime NC",
-    "url": "https://fightingcrimenc.com",
-    "description": "North Carolina's premier crime news and public safety information resource",
-    "address": {
-      "@type": "PostalAddress",
-      "addressRegion": "NC",
-      "addressCountry": "US"
-    }
+    "url": window.location.origin,
+    "description": "North Carolina's premier crime news and public safety information resource"
   };
 
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Fighting Crime NC",
-    "url": "https://fightingcrimenc.com",
-    "description": description,
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": "https://fightingcrimenc.com/search?q={search_term_string}",
-      "query-input": "required name=search_term_string"
-    }
+    "url": window.location.origin,
+    "description": description
   };
 
   return (
@@ -107,17 +106,15 @@ const SEOHead = ({
       <meta name="geo.region" content="US-NC" />
       <meta name="geo.placename" content="North Carolina" />
       
-      {/* Simplified Schema.org JSON-LD */}
-      <script type="application/ld+json">
-        {JSON.stringify(organizationSchema)}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify(websiteSchema)}
-      </script>
-      {schemaData && (
-        <script type="application/ld+json">
-          {JSON.stringify(schemaData)}
-        </script>
+      {/* Schema.org JSON-LD with error handling */}
+      {safeStringify(organizationSchema) && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeStringify(organizationSchema) }} />
+      )}
+      {safeStringify(websiteSchema) && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeStringify(websiteSchema) }} />
+      )}
+      {schemaData && safeStringify(schemaData) && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeStringify(schemaData) }} />
       )}
     </Helmet>
   );

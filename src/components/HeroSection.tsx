@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
+import ImageWithFallback from "./ImageWithFallback";
 import heroImage from "@/assets/hero-crime-fighting.jpg";
 
 const HeroSection = () => {
   return (
-    <section 
-      className="relative min-h-[80vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: `url(${heroImage})` }}
-    >
+    <section className="relative min-h-[80vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <ImageWithFallback
+        src={heroImage}
+        alt="Fighting Crime NC - Law enforcement and public safety"
+        className="absolute inset-0 w-full h-full object-cover"
+        fallbackSrc="/placeholder.svg"
+      />
       <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/90"></div>
       
       <div className="relative z-10 container mx-auto container-mobile text-center">
