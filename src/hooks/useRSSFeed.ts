@@ -16,27 +16,27 @@ export const useRSSFeed = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Mock RSS data - in production, replace with actual RSS parser
+  // Enhanced mock RSS data - more realistic and comprehensive
   const mockRSSData: RSSItem[] = [
     {
       id: "1",
-      title: "Breaking: Multi-County Drug Bust Nets 15 Arrests in Western NC",
-      description: "A coordinated operation between multiple law enforcement agencies resulted in significant drug seizures and arrests across Buncombe and Henderson counties.",
+      title: "BREAKING: Major Fentanyl Operation Dismantled in Western NC - 15 Arrested",
+      description: "Multi-agency task force including DEA, SBI, and local sheriffs seized over 5 kilograms of fentanyl, $200,000 cash, and multiple firearms in coordinated raids across Buncombe and Henderson counties. Operation 'Blue Ridge Sweep' targeted high-level distribution network.",
       link: "https://ncfightingcrime.com/news/drug-bust-western-nc",
       pubDate: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
       category: "Drug Crimes",
-      location: "Buncombe County, NC",
-      source: "NC Fighting Crime"
+      location: "Buncombe & Henderson Counties, NC",
+      source: "NC State Bureau of Investigation"
     },
     {
       id: "2",
-      title: "Wanted: Armed Robbery Suspect from Charlotte Area",
-      description: "Mecklenburg County Sheriff's Office seeks public assistance in locating suspect connected to multiple armed robberies.",
+      title: "WANTED: Armed Robbery Suspect - Multiple Charlotte Area Incidents",
+      description: "Marcus Johnson, 28, sought for string of armed robberies targeting convenience stores in Charlotte metro area. Considered armed and dangerous. Last seen driving stolen red Honda Civic. $5,000 reward offered.",
       link: "https://ncfightingcrime.com/wanted/charlotte-robbery-suspect",
-      pubDate: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+      pubDate: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
       category: "Wanted",
-      location: "Charlotte, NC",
-      source: "Mecklenburg County SO"
+      location: "Charlotte Metro Area, NC",
+      source: "Mecklenburg County Sheriff's Office"
     },
     {
       id: "3",
@@ -50,13 +50,33 @@ export const useRSSFeed = () => {
     },
     {
       id: "4",
-      title: "Missing Person Alert: Elderly Man from Raleigh",
-      description: "Silver Alert issued for 72-year-old man missing from Raleigh. Last seen driving white Toyota Camry.",
+      title: "SILVER ALERT: Missing Elderly Man from Raleigh - Dementia Concerns",
+      description: "Robert Mitchell, 72, missing since 6 AM from Raleigh nursing facility. Diagnosed with dementia, may be confused. Last seen wearing blue pajamas, driving white 2018 Toyota Camry (NC plate: ABC-1234). Call 911 immediately if spotted.",
       link: "https://ncfightingcrime.com/missing/raleigh-elderly",
-      pubDate: new Date(Date.now() - 8 * 60 * 60 * 1000).toISOString(),
+      pubDate: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
       category: "Missing Person",
       location: "Raleigh, NC",
-      source: "Raleigh PD"
+      source: "Raleigh Police Department"
+    },
+    {
+      id: "5",
+      title: "Operation Safe Streets: Gang Arrests Target Charlotte Violence",
+      description: "Charlotte-Mecklenburg Police arrest 12 suspected gang members in coordinated operation. Focus on reducing gun violence in east Charlotte neighborhoods. Seized weapons, drugs, and cash.",
+      link: "https://ncfightingcrime.com/news/charlotte-gang-arrests",
+      pubDate: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+      category: "Gang Activity",
+      location: "Charlotte, NC",
+      source: "Charlotte-Mecklenburg Police"
+    },
+    {
+      id: "6",
+      title: "Cybercrime Unit Warns of Romance Scam Targeting NC Seniors",
+      description: "NC Attorney General's Office reports $2.3M stolen from elderly residents through online romance scams. Tips provided for identifying and avoiding fraudulent relationships targeting vulnerable adults.",
+      link: "https://ncfightingcrime.com/news/romance-scam-warning",
+      pubDate: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
+      category: "Fraud Alert",
+      location: "Statewide, NC",
+      source: "NC Attorney General's Office"
     }
   ];
 
@@ -91,9 +111,13 @@ export const useRSSFeed = () => {
       case 'drug crimes':
         return 'secondary';
       case 'missing person':
-        return 'outline';
+        return 'destructive';
       case 'traffic safety':
         return 'default';
+      case 'gang activity':
+        return 'destructive';
+      case 'fraud alert':
+        return 'secondary';
       default:
         return 'outline';
     }
