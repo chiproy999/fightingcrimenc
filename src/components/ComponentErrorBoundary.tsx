@@ -14,14 +14,16 @@ interface ComponentErrorBoundaryState {
 }
 
 const DefaultErrorFallback = ({ error, retry }: { error: Error; retry: () => void }) => (
-  <div className="min-h-[200px] flex items-center justify-center bg-card/30 rounded-lg border border-destructive/20">
+  <div className="min-h-[200px] flex items-center justify-center bg-card/50 backdrop-blur-sm rounded-lg border border-destructive/30">
     <div className="text-center p-6">
       <AlertTriangle className="h-12 w-12 text-destructive mx-auto mb-4" />
-      <h3 className="text-lg font-semibold mb-2 text-destructive">Component Error</h3>
-      <p className="text-sm text-muted-foreground mb-4">{error.message}</p>
-      <Button onClick={retry} variant="outline" size="sm" className="gap-2">
+      <h3 className="text-lg font-semibold mb-2 text-destructive">Component Loading Error</h3>
+      <p className="text-sm text-muted-foreground mb-4">
+        {error.message || 'A component failed to load properly. This may be a temporary issue.'}
+      </p>
+      <Button onClick={retry} variant="outline" size="sm" className="gap-2 hover:bg-destructive/10">
         <RefreshCw className="h-4 w-4" />
-        Retry
+        Try Again
       </Button>
     </div>
   </div>

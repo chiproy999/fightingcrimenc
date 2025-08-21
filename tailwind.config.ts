@@ -77,6 +77,7 @@ export default {
 				'gradient-hero': 'var(--gradient-hero)',
 				'gradient-danger': 'var(--gradient-danger)',
 				'gradient-police': 'var(--gradient-police)',
+				'gradient-backdrop': 'var(--gradient-backdrop)',
 			},
 			boxShadow: {
 				'crime': 'var(--shadow-crime)',
@@ -99,11 +100,21 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'emergency-pulse': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.3' }
+				},
+				'slide-up': {
+					'0%': { transform: 'translateY(10px)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'emergency-pulse': 'emergency-pulse 2s infinite',
+				'slide-up': 'slide-up 0.6s ease-out'
 			}
 		}
 	},

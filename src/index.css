@@ -6,11 +6,11 @@
 
 @layer base {
   :root {
-    /* Core Law Enforcement Colors */
-    --background: 220 15% 6%;
+    /* Core Law Enforcement Colors - Lighter background for less boring appearance */
+    --background: 220 20% 12%;
     --foreground: 210 40% 98%;
 
-    --card: 220 13% 9%;
+    --card: 220 15% 15%;
     --card-foreground: 210 40% 98%;
 
     --popover: 220 13% 9%;
@@ -46,10 +46,11 @@
     --warning-yellow: 45 93% 58%;
     --evidence-green: 142 76% 36%;
     
-    /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(220 15% 6%) 0%, hsl(217 91% 15%) 50%, hsl(220 15% 6%) 100%);
+    /* Enhanced Gradients with texture and depth */
+    --gradient-hero: linear-gradient(135deg, hsl(220 20% 8%) 0%, hsl(217 91% 18%) 30%, hsl(220 15% 22%) 70%, hsl(220 20% 8%) 100%);
     --gradient-danger: linear-gradient(90deg, hsl(0 84% 60%) 0%, hsl(0 84% 50%) 100%);
     --gradient-police: linear-gradient(90deg, hsl(217 91% 35%) 0%, hsl(217 91% 45%) 100%);
+    --gradient-backdrop: linear-gradient(45deg, hsl(220 20% 12% / 0.8) 0%, hsl(217 91% 15% / 0.6) 50%, hsl(220 20% 12% / 0.8) 100%);
     
     /* Shadows */
     --shadow-crime: 0 10px 30px -10px hsl(0 84% 60% / 0.3);
