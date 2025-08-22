@@ -41,11 +41,22 @@ const Header = () => {
             </Button>
           </nav>
 
-          {/* Emergency Contact Badge - Desktop */}
-          <Badge variant="destructive" className="hidden sm:flex lg:hidden xl:flex items-center gap-2 px-3 py-2">
-            <Phone className="h-4 w-4" />
-            <span className="hidden md:inline">Emergency:</span> 911
-          </Badge>
+          {/* Auth and Emergency Section */}
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="outline" 
+              size="sm"
+              className="hidden md:flex border-police-blue/50 text-police-blue hover:bg-police-blue hover:text-white"
+              onClick={() => window.location.href = '/auth'}
+            >
+              Sign In
+            </Button>
+            
+            <Badge variant="destructive" className="hidden sm:flex lg:hidden xl:flex items-center gap-2 px-3 py-2">
+              <Phone className="h-4 w-4" />
+              <span className="hidden md:inline">Emergency:</span> 911
+            </Badge>
+          </div>
 
           {/* Mobile Menu */}
           <MobileMenu />
