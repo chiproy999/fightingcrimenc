@@ -4,7 +4,7 @@ import heroImage from "@/assets/hero-crime-fighting.jpg";
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[80vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden bg-gradient-hero">
+    <section className="relative min-h-[60vh] sm:min-h-[65vh] lg:min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-hero">
       <ImageWithFallback
         src={heroImage}
         alt="Fighting Crime NC - Law enforcement and public safety"
