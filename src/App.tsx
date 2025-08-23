@@ -8,6 +8,11 @@ import { ErrorBoundary } from "react-error-boundary";
 import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
+import CrimeNews from "./pages/CrimeNews";
+import Wanted from "./pages/Wanted";
+import MissingPersons from "./pages/MissingPersons";
+import SubmitTips from "./pages/SubmitTips";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 // Error fallback component
@@ -40,6 +45,11 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
+                <Route path="/crime-news" element={<CrimeNews />} />
+                <Route path="/wanted" element={<Wanted />} />
+                <Route path="/missing-persons" element={<MissingPersons />} />
+                <Route path="/submit-tips" element={<SubmitTips />} />
+                <Route path="/contact" element={<Contact />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
