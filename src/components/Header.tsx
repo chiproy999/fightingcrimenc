@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Phone } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import MobileMenu from "./MobileMenu";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
       <div className="container mx-auto container-mobile">
@@ -21,22 +24,46 @@ const Header = () => {
 
           {/* Navigation - Hidden on mobile */}
           <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
-            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/')}
+            >
               Home
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/crime-news')}
+            >
               Crime News
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/wanted')}
+            >
               Who's Wanted
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/missing-persons')}
+            >
               Missing Persons
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/submit-tips')}
+            >
               Submit Tips
             </Button>
-            <Button variant="ghost" className="text-foreground hover:text-primary text-sm">
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/contact')}
+            >
               Contact
             </Button>
           </nav>
@@ -47,7 +74,7 @@ const Header = () => {
               variant="outline" 
               size="sm"
               className="hidden md:flex border-police-blue/50 text-police-blue hover:bg-police-blue hover:text-white"
-              onClick={() => window.location.href = '/auth'}
+              onClick={() => navigate('/auth')}
             >
               Sign In
             </Button>

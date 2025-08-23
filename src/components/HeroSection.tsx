@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import ImageWithFallback from "./ImageWithFallback";
 import heroImage from "@/assets/hero-crime-fighting.jpg";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-[60vh] sm:min-h-[65vh] lg:min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-hero">
       <ImageWithFallback
@@ -37,6 +40,7 @@ const HeroSection = () => {
             <Button 
               size="lg" 
               className="bg-gradient-police text-white hover:shadow-evidence px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
+              onClick={() => navigate('/wanted')}
             >
               View Wanted Persons
             </Button>
@@ -44,12 +48,14 @@ const HeroSection = () => {
               size="lg" 
               variant="outline"
               className="border-emergency-red text-emergency-red hover:bg-emergency-red hover:text-white px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
+              onClick={() => navigate('/crime-news')}
             >
               Latest Crime News
             </Button>
             <Button 
               size="lg" 
               className="bg-gradient-danger text-white hover:shadow-crime px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
+              onClick={() => navigate('/submit-tips')}
             >
               Submit Anonymous Tip
             </Button>
