@@ -129,7 +129,7 @@ const HeroSection = memo(() => {
             </Badge>
             <Badge variant="outline" className="px-3 py-1">
               <Phone className="mr-1 h-3 w-3" />
-              Crime Stoppers: 1-800-NC-CRIME
+              Wake County: (919) 996-1193
             </Badge>
           </div>
         </div>

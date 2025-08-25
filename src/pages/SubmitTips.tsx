@@ -213,10 +213,16 @@ const SubmitTips = () => {
                   <p className="text-sm text-muted-foreground mb-4">
                     Prefer to call? Use the Crime Stoppers hotline for anonymous tips.
                   </p>
-                  <Button variant="outline" className="w-full border-police-blue text-police-blue hover:bg-police-blue hover:text-white">
-                    <Phone className="h-4 w-4 mr-2" />
-                    1-800-CRIMESTOP
-                  </Button>
+                  <div className="space-y-2">
+                    <Button variant="outline" className="w-full border-police-blue text-police-blue hover:bg-police-blue hover:text-white">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Wake: (919) 996-1193
+                    </Button>
+                    <Button variant="outline" className="w-full border-police-blue text-police-blue hover:bg-police-blue hover:text-white">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Mecklenburg: (704) 334-1600
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
 

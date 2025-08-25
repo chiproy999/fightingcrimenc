@@ -223,8 +223,8 @@ const Contact = () => {
                   <div className="flex items-start gap-3">
                     <Phone className="h-5 w-5 text-police-blue mt-0.5" />
                     <div>
-                      <p className="font-medium text-foreground">Phone</p>
-                      <p className="text-sm text-muted-foreground">(555) 123-CRIME</p>
+                      <p className="font-medium text-foreground">General Inquiries</p>
+                      <p className="text-sm text-muted-foreground">Use contact form above</p>
                     </div>
                   </div>
 
