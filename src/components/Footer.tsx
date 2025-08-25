@@ -62,12 +62,12 @@ const Footer = () => {
                 <p className="text-muted-foreground text-sm">Immediate danger or crimes in progress</p>
               </div>
               <div>
-                <p className="text-police-blue font-semibold">Crime Stoppers</p>
-                <p className="text-muted-foreground text-sm">1-800-CRIMENC</p>
+                <p className="text-police-blue font-semibold">Wake County Crime Stoppers</p>
+                <p className="text-muted-foreground text-sm">(919) 996-1193</p>
               </div>
               <div>
-                <p className="text-foreground font-semibold">Tips Hotline</p>
-                <p className="text-muted-foreground text-sm">252-408-6736</p>
+                <p className="text-foreground font-semibold">Mecklenburg Crime Stoppers</p>
+                <p className="text-muted-foreground text-sm">(704) 334-1600</p>
               </div>
             </div>
           </div>
