@@ -3,17 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Menu, Phone, AlertTriangle, X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const MobileMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const menuItems = [
-    { name: "Home", href: "#", icon: "🏠" },
-    { name: "Crime News", href: "#crime-news", icon: "📰" },
-    { name: "Who's Wanted", href: "#wanted", icon: "🚨" },
-    { name: "Missing Persons", href: "#missing", icon: "👤" },
-    { name: "Submit Tips", href: "#tips", icon: "💡" },
-    { name: "Contact", href: "#contact", icon: "📞" }
+    { name: "Home", path: "/", icon: "🏠" },
+    { name: "Crime News", path: "/crime-news", icon: "📰" },
+    { name: "Who's Wanted", path: "/wanted", icon: "🚨" },
+    { name: "Missing Persons", path: "/missing-persons", icon: "👤" },
+    { name: "Submit Tips", path: "/submit-tips", icon: "💡" },
+    { name: "Contact", path: "/contact", icon: "📞" }
   ];
 
   return (
@@ -58,11 +60,7 @@ const MobileMenu = () => {
               className="w-full justify-start h-12 text-left px-4 hover:bg-primary/10 hover:text-primary"
               onClick={() => {
                 setIsOpen(false);
-                // Handle navigation
-                if (item.href.startsWith('#')) {
-                  const element = document.querySelector(item.href);
-                  element?.scrollIntoView({ behavior: 'smooth' });
-                }
+                navigate(item.path);
               }}
             >
               <span className="mr-3 text-lg">{item.icon}</span>
@@ -99,10 +97,13 @@ const MobileMenu = () => {
         {/* Contact Info */}
         <div className="mt-6 pt-6 border-t border-border/50 text-center">
           <p className="text-xs text-muted-foreground">
-            24/7 Crime Tip Hotline
+            Crime Stoppers
           </p>
           <p className="text-sm font-semibold text-primary">
-            1-800-NC-CRIME
+            Wake: (919) 996-1193
+          </p>
+          <p className="text-sm font-semibold text-primary">
+            Mecklenburg: (704) 334-1600
           </p>
         </div>
       </SheetContent>

@@ -19,7 +19,7 @@ const SEOHead = ({
   description = "Fighting Crime NC is North Carolina's premier crime news source. Get real-time NC crime alerts, wanted suspect information, missing persons updates, and anonymous tip reporting. Trusted by law enforcement and communities statewide.",
   keywords = "North Carolina crime news, NC wanted persons, NC public safety, North Carolina law enforcement, crime tips NC, wanted suspects North Carolina, NC sheriff department, crime prevention NC",
   ogImage = "/images/og-crime-fighting-nc.jpg",
-  canonicalUrl = window.location.href,
+  canonicalUrl,
   articlePublishedTime,
   articleModifiedTime,
   articleAuthor = "Fighting Crime NC Editorial Team",
@@ -36,11 +36,14 @@ const SEOHead = ({
     }
   };
 
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://fightingcrimenc.com';
+  const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : baseUrl);
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Fighting Crime NC",
-    "url": window.location.origin,
+    "url": baseUrl,
     "description": "North Carolina's premier crime news and public safety information resource"
   };
 
@@ -48,7 +51,7 @@ const SEOHead = ({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "Fighting Crime NC",
-    "url": window.location.origin,
+    "url": baseUrl,
     "description": description
   };
 
@@ -63,11 +66,11 @@ const SEOHead = ({
       <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       
       {/* Canonical URL */}
-      <link rel="canonical" href={canonicalUrl} />
+      <link rel="canonical" href={currentUrl} />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:url" content={currentUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
@@ -92,7 +95,7 @@ const SEOHead = ({
       
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={canonicalUrl} />
+      <meta property="twitter:url" content={currentUrl} />
       <meta property="twitter:title" content={title} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={ogImage} />

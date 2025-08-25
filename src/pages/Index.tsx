@@ -40,7 +40,9 @@ const Index = () => {
         
         {/* Footer */}
         <ComponentErrorBoundary>
-        <Footer />
+          <Suspense fallback={<SectionLoader />}>
+            <Footer />
+          </Suspense>
         </ComponentErrorBoundary>
       </div>
     </>

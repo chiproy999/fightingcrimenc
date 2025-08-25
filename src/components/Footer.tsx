@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
     <footer className="bg-card border-t border-emergency-red/30 py-12">
       <div className="container mx-auto px-4">
@@ -21,17 +23,37 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold text-foreground mb-4">Quick Links</h4>
             <div className="space-y-2">
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/crime-news')}
+              >
                 Crime News
               </Button>
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/wanted')}
+              >
                 Who's Wanted
               </Button>
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/missing-persons')}
+              >
                 Missing Persons
               </Button>
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
-                Cold Cases
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/submit-tips')}
+              >
+                Submit Tips
               </Button>
             </div>
           </div>
@@ -39,17 +61,37 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold text-foreground mb-4">Resources</h4>
             <div className="space-y-2">
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
-                Submit Tips
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/contact')}
+              >
+                Contact Us
               </Button>
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/submit-tips')}
+              >
                 Crime Prevention
               </Button>
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
-                Victim Services
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/submit-tips')}
+              >
+                Anonymous Tips
               </Button>
-              <Button variant="ghost" size="sm" className="justify-start p-0 h-auto text-muted-foreground hover:text-primary">
-                Community Watch
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/')}
+              >
+                Community Safety
               </Button>
             </div>
           </div>
@@ -75,7 +117,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-muted-foreground">
-            © 2024 Fighting Crime NC. All rights reserved. | 
+            © 2025 Fighting Crime NC. All rights reserved. | 
             <Button variant="ghost" size="sm" className="ml-1 p-0 h-auto text-police-blue hover:text-primary">
               Privacy Policy
             </Button> | 
