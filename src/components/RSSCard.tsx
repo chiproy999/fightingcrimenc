@@ -12,6 +12,7 @@ interface RSSCardProps {
 
 const RSSCard = ({ item, getCategoryColor, formatTimeAgo }: RSSCardProps) => {
   const handleReadMore = () => {
+    // Open external link in new tab with security attributes
     window.open(item.link, '_blank', 'noopener,noreferrer');
   };
 
