@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useRSSFeed } from "@/hooks/useRSSFeed";
+import { useNavigate } from "react-router-dom";
 import RSSCard from "./RSSCard";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
 
 const RSSFeed = () => {
   const { rssItems, loading, error, getCategoryColor, formatTimeAgo, refetch } = useRSSFeed();
+  const navigate = useNavigate();
 
   if (loading) {
     return <LoadingState />;
@@ -42,6 +44,7 @@ const RSSFeed = () => {
             variant="default" 
             size="lg" 
             className="bg-gradient-police hover:opacity-90 transition-opacity"
+            onClick={() => navigate('/crime-news')}
             aria-label="View all North Carolina crime news"
           >
             View All NC Crime News
