@@ -13,6 +13,7 @@ const HeroSection = () => {
         alt="Fighting Crime NC - Law enforcement and public safety"
         className="absolute inset-0 w-full h-full object-cover opacity-30"
         fallbackSrc="/placeholder.svg"
+        priority={true}
       />
       <div className="absolute inset-0 bg-gradient-backdrop"></div>
       

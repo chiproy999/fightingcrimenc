@@ -6,6 +6,7 @@ interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElemen
   fallbackSrc?: string;
   showErrorIcon?: boolean;
   errorMessage?: string;
+  priority?: boolean; // For LCP optimization
 }
 
 const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({ 
@@ -15,6 +16,8 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   errorMessage = "Image not available",
   className = "",
   alt = "",
+  priority = false,
+  loading,
   ...props 
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
@@ -58,7 +61,8 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
         className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
         onError={handleError}
         onLoad={handleLoad}
-        loading="lazy"
+        loading={priority ? "eager" : loading || "lazy"}
+        fetchPriority={priority ? "high" : undefined}
         {...props}
       />
     </>
