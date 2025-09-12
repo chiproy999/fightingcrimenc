@@ -13,6 +13,7 @@ import Wanted from "./pages/Wanted";
 import MissingPersons from "./pages/MissingPersons";
 import SubmitTips from "./pages/SubmitTips";
 import Contact from "./pages/Contact";
+import Policy from "./pages/Policy";
 import NotFound from "./pages/NotFound";
 
 // Error fallback component
@@ -50,6 +51,7 @@ const App = () => (
                 <Route path="/missing-persons" element={<MissingPersons />} />
                 <Route path="/submit-tips" element={<SubmitTips />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/policy" element={<Policy />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>

@@ -118,6 +118,14 @@ const Footer = () => {
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-muted-foreground">
             © 2025 Fighting Crime NC. All rights reserved. | 
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="ml-1 p-0 h-auto text-police-blue hover:text-primary"
+              onClick={() => navigate('/policy')}
+            >
+              Policy
+            </Button> | 
             <Button variant="ghost" size="sm" className="ml-1 p-0 h-auto text-police-blue hover:text-primary">
               Privacy Policy
             </Button> | 
@@ -127,6 +135,9 @@ const Footer = () => {
           </p>
           <p className="text-sm text-muted-foreground mt-2">
             Website: fightingcrimenc.com | Working together for safer communities
+          </p>
+          <p className="text-xs text-muted-foreground mt-3 max-w-4xl mx-auto">
+            Fighting Crime NC publishes crime news and arrest information sourced from official news outlets and public records. Mugshots and arrest images shown on this site come directly from the original source material.
           </p>
         </div>
       </div>
