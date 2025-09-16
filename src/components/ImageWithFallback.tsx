@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { ImageOff } from 'lucide-react';
 
 interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -9,20 +9,29 @@ interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElemen
   priority?: boolean; // For LCP optimization
 }
 
-const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({ 
-  src, 
-  fallbackSrc, 
+const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
+  src,
+  fallbackSrc,
   showErrorIcon = true,
   errorMessage = "Image not available",
   className = "",
   alt = "",
   priority = false,
   loading,
-  ...props 
+  onError: onErrorProp,
+  onLoad: onLoadProp,
+  ...props
 }) => {
   const [imageSrc, setImageSrc] = useState(src);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Reset internal state when the src prop changes
+  useEffect(() => {
+    setImageSrc(src);
+    setHasError(false);
+    setIsLoading(true);
+  }, [src]);
 
   const handleError = useCallback(() => {
     if (fallbackSrc && imageSrc !== fallbackSrc) {
@@ -41,7 +50,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
 
   if (hasError) {
     return (
-      <div className={`flex items-center justify-center bg-muted/30 ${className}`} {...props}>
+      <div className={`flex items-center justify-center bg-muted/30 ${className}`}>
         <div className="text-center p-4">
           {showErrorIcon && <ImageOff className="h-8 w-8 text-muted-foreground mx-auto mb-2" />}
           <p className="text-xs text-muted-foreground">{errorMessage}</p>
@@ -53,14 +62,14 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   return (
     <>
       {isLoading && (
-        <div className={`animate-pulse bg-muted/50 ${className}`} {...props} />
+        <div className={`animate-pulse bg-muted/50 ${className}`} />
       )}
       <img
         src={imageSrc}
         alt={alt}
         className={`${className} ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
-        onError={handleError}
-        onLoad={handleLoad}
+        onError={(e) => { handleError(); onErrorProp?.(e as unknown as React.SyntheticEvent<HTMLImageElement, Event>); }}
+        onLoad={(e) => { handleLoad(); onLoadProp?.(e as unknown as React.SyntheticEvent<HTMLImageElement, Event>); }}
         loading={priority ? "eager" : loading || "lazy"}
         fetchPriority={priority ? "high" : undefined}
         {...props}
