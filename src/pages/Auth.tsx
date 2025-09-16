@@ -110,6 +110,9 @@ const Auth = () => {
               <div>
                 <Input
                   type="email"
+                  id="auth-email"
+                  name="email"
+                  autoComplete="email"
                   placeholder="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -121,6 +124,9 @@ const Auth = () => {
               <div>
                 <Input
                   type="password"
+                  id="auth-password"
+                  name="password"
+                  autoComplete={isSignUp ? "new-password" : "current-password"}
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

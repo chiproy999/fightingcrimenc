@@ -110,6 +110,8 @@ const SubmitTips = () => {
                           Type of Crime/Incident
                         </label>
                         <select 
+                          id="tip-type"
+                          name="tipType"
                           className="w-full p-3 border border-input rounded-md bg-background text-foreground"
                           value={formData.tipType}
                           onChange={(e) => setFormData({...formData, tipType: e.target.value})}
@@ -133,6 +135,9 @@ const SubmitTips = () => {
                         </label>
                         <Input
                           type="text"
+                          id="tip-location"
+                          name="location"
+                          autoComplete="address-level2"
                           placeholder="e.g., Charlotte, Wake County, etc."
                           value={formData.location}
                           onChange={(e) => setFormData({...formData, location: e.target.value})}
@@ -146,6 +151,8 @@ const SubmitTips = () => {
                           Detailed Description
                         </label>
                         <Textarea
+                          id="tip-description"
+                          name="description"
                           placeholder="Provide as much detail as possible about what you witnessed or know. Include dates, times, descriptions of people, vehicles, etc."
                           value={formData.description}
                           onChange={(e) => setFormData({...formData, description: e.target.value})}
@@ -160,6 +167,9 @@ const SubmitTips = () => {
                         </label>
                         <Input
                           type="text"
+                          id="tip-contact"
+                          name="contact"
+                          autoComplete="tel"
                           placeholder="Phone or email (only if you want to be contacted)"
                           value={formData.contact}
                           onChange={(e) => setFormData({...formData, contact: e.target.value})}

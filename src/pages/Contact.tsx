@@ -100,6 +100,8 @@ const Contact = () => {
                           Type of Inquiry
                         </label>
                         <select 
+                          id="inquiry-type"
+                          name="inquiryType"
                           className="w-full p-3 border border-input rounded-md bg-background text-foreground"
                           value={formData.inquiryType}
                           onChange={(e) => setFormData({...formData, inquiryType: e.target.value})}
@@ -122,6 +124,9 @@ const Contact = () => {
                           </label>
                           <Input
                             type="text"
+                            id="contact-name"
+                            name="name"
+                            autoComplete="name"
                             placeholder="Your full name"
                             value={formData.name}
                             onChange={(e) => setFormData({...formData, name: e.target.value})}
@@ -136,6 +141,9 @@ const Contact = () => {
                           </label>
                           <Input
                             type="email"
+                            id="contact-email"
+                            name="email"
+                            autoComplete="email"
                             placeholder="your.email@example.com"
                             value={formData.email}
                             onChange={(e) => setFormData({...formData, email: e.target.value})}
@@ -151,6 +159,8 @@ const Contact = () => {
                         </label>
                         <Input
                           type="text"
+                          id="contact-subject"
+                          name="subject"
                           placeholder="Brief description of your inquiry"
                           value={formData.subject}
                           onChange={(e) => setFormData({...formData, subject: e.target.value})}
@@ -164,6 +174,8 @@ const Contact = () => {
                           Message
                         </label>
                         <Textarea
+                          id="contact-message"
+                          name="message"
                           placeholder="Please provide details about your inquiry, question, or feedback..."
                           value={formData.message}
                           onChange={(e) => setFormData({...formData, message: e.target.value})}
