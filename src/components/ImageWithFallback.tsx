@@ -71,7 +71,6 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
         onError={(e) => { handleError(); onErrorProp?.(e as unknown as React.SyntheticEvent<HTMLImageElement, Event>); }}
         onLoad={(e) => { handleLoad(); onLoadProp?.(e as unknown as React.SyntheticEvent<HTMLImageElement, Event>); }}
         loading={priority ? "eager" : loading || "lazy"}
-        fetchPriority={priority ? "high" : undefined}
         {...props}
       />
     </>

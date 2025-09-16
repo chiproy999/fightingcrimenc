@@ -109,7 +109,10 @@ const SEOHead = ({
       <meta name="geo.region" content="US-NC" />
       <meta name="geo.placename" content="North Carolina" />
       
-      {/* Schema.org JSON-LD with error handling */}
+      {/* Content Security Policy */}
+      <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:;" />
+      
+      {/* Schema.org JSON-LD with CSP-safe handling */}
       {safeStringify(organizationSchema) && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeStringify(organizationSchema) }} />
       )}
