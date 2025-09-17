@@ -112,6 +112,7 @@ const SubmitTips = () => {
                         <select 
                           id="tip-type"
                           name="tipType"
+                          autoComplete="off"
                           className="w-full p-3 border border-input rounded-md bg-background text-foreground"
                           value={formData.tipType}
                           onChange={(e) => setFormData({...formData, tipType: e.target.value})}

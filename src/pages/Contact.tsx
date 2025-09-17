@@ -102,6 +102,7 @@ const Contact = () => {
                         <select 
                           id="inquiry-type"
                           name="inquiryType"
+                          autoComplete="off"
                           className="w-full p-3 border border-input rounded-md bg-background text-foreground"
                           value={formData.inquiryType}
                           onChange={(e) => setFormData({...formData, inquiryType: e.target.value})}

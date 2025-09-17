@@ -112,6 +112,9 @@ const SEOHead = ({
       {/* Content Security Policy */}
       <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:;" />
       
+      {/* Permissions Policy */}
+      <meta httpEquiv="Permissions-Policy" content="ambient-light-sensor=(), battery=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=*, geolocation=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(self), usb=(), web-share=(), xr-spatial-tracking=()" />
+      
       {/* Schema.org JSON-LD with CSP-safe handling */}
       {safeStringify(organizationSchema) && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeStringify(organizationSchema) }} />
