@@ -39,6 +39,11 @@ const SEOHead = ({
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://fightingcrimenc.com';
   const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : baseUrl);
 
+  // In development, keep the browser tab/omnibox title blank to avoid confusion
+  // with unrelated feature work (e.g., Gmail/Facebook automation flows).
+  // In production builds, use the provided SEO title as usual.
+  const effectiveTitle = import.meta.env?.DEV ? '' : title;
+
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -58,8 +63,8 @@ const SEOHead = ({
   return (
     <Helmet>
       {/* Primary Meta Tags */}
-      <title>{title}</title>
-      <meta name="title" content={title} />
+      <title>{effectiveTitle}</title>
+      <meta name="title" content={effectiveTitle} />
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content={articleAuthor} />
@@ -71,7 +76,7 @@ const SEOHead = ({
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={currentUrl} />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={effectiveTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:image:width" content="1200" />
@@ -96,7 +101,7 @@ const SEOHead = ({
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:url" content={currentUrl} />
-      <meta property="twitter:title" content={title} />
+      <meta property="twitter:title" content={effectiveTitle} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={ogImage} />
       
