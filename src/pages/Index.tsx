@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import SEOHead from "@/components/SEOHead";
 import RSSFeed from "@/components/RSSFeed";
+import FAQSection from "@/components/FAQSection";
 import ComponentErrorBoundary from "@/components/ComponentErrorBoundary";
 
 // Lazy load below-the-fold components for better performance
@@ -37,7 +38,12 @@ const Index = () => {
         <ComponentErrorBoundary>
           <RSSFeed />
         </ComponentErrorBoundary>
-        
+
+        {/* FAQ Section */}
+        <ComponentErrorBoundary>
+          <FAQSection />
+        </ComponentErrorBoundary>
+
         {/* Footer */}
         <ComponentErrorBoundary>
           <Suspense fallback={<SectionLoader />}>

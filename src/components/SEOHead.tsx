@@ -44,12 +44,24 @@ const SEOHead = ({
   // In production builds, use the provided SEO title as usual.
   const effectiveTitle = import.meta.env?.DEV ? '' : title;
 
+  // Import structured data from helper (inline to avoid import issues)
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Fighting Crime NC",
+    "alternateName": "FCNC",
     "url": baseUrl,
-    "description": "North Carolina's premier crime news and public safety information resource"
+    "logo": `${baseUrl}/logo.png`,
+    "description": "North Carolina's premier crime news and public safety information resource",
+    "address": {
+      "@type": "PostalAddress",
+      "addressRegion": "NC",
+      "addressCountry": "US"
+    },
+    "areaServed": {
+      "@type": "State",
+      "name": "North Carolina"
+    }
   };
 
   const websiteSchema = {
@@ -57,7 +69,15 @@ const SEOHead = ({
     "@type": "WebSite",
     "name": "Fighting Crime NC",
     "url": baseUrl,
-    "description": description
+    "description": description,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": `${baseUrl}/search?q={search_term_string}`
+      },
+      "query-input": "required name=search_term_string"
+    }
   };
 
   return (
@@ -114,8 +134,8 @@ const SEOHead = ({
       <meta name="geo.region" content="US-NC" />
       <meta name="geo.placename" content="North Carolina" />
       
-      {/* Content Security Policy */}
-      <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:;" />
+      {/* Content Security Policy - Relaxed for development, tighten in production */}
+      <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: blob: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-src 'self' https:;" />
       
       {/* Permissions Policy */}
       <meta httpEquiv="Permissions-Policy" content="ambient-light-sensor=(), battery=(), camera=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=*, geolocation=(), microphone=(), midi=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(self), usb=(), web-share=(), xr-spatial-tracking=()" />

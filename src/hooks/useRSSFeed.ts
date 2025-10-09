@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { fetchMultipleRSSFeeds, NC_RSS_FEEDS } from '@/lib/rssParser';
 
 export interface RSSItem {
   id: string;
@@ -16,85 +17,24 @@ export const useRSSFeed = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Real NC crime news data with working external links
-  const mockRSSData: RSSItem[] = [
-    {
-      id: "1",
-      title: "BREAKING: Major Fentanyl Operation Dismantled in Western NC - 15 Arrested",
-      description: "Multi-agency task force including DEA, SBI, and local sheriffs seized over 5 kilograms of fentanyl, $200,000 cash, and multiple firearms in coordinated raids across Buncombe and Henderson counties. Operation 'Blue Ridge Sweep' targeted high-level distribution network.",
-      link: "#",
-      pubDate: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      category: "Drug Crimes",
-      location: "Buncombe & Henderson Counties, NC",
-      source: "NC State Bureau of Investigation"
-    },
-    {
-      id: "2",
-      title: "WANTED: Armed Robbery Suspect - Multiple Charlotte Area Incidents",
-      description: "Marcus Johnson, 28, sought for string of armed robberies targeting convenience stores in Charlotte metro area. Considered armed and dangerous. Last seen driving stolen red Honda Civic. $5,000 reward offered.",
-      link: "#",
-      pubDate: new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString(),
-      category: "Wanted",
-      location: "Charlotte Metro Area, NC",
-      source: "Mecklenburg County Sheriff's Office"
-    },
-    {
-      id: "3",
-      title: "Highway Patrol Increases Presence During Holiday Travel",
-      description: "North Carolina State Highway Patrol announces enhanced enforcement measures for upcoming holiday weekend with additional checkpoints and patrols statewide.",
-      link: "#",
-      pubDate: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-      category: "Traffic Safety",
-      location: "Statewide, NC",
-      source: "NC State Highway Patrol"
-    },
-    {
-      id: "4",
-      title: "SILVER ALERT: Missing Elderly Man from Raleigh - Dementia Concerns",
-      description: "Robert Mitchell, 72, missing since 6 AM from Raleigh nursing facility. Diagnosed with dementia, may be confused. Last seen wearing blue pajamas, driving white 2018 Toyota Camry (NC plate: ABC-1234). Call 911 immediately if spotted.",
-      link: "#",
-      pubDate: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-      category: "Missing Person",
-      location: "Raleigh, NC",
-      source: "Raleigh Police Department"
-    },
-    {
-      id: "5",
-      title: "Operation Safe Streets: Gang Arrests Target Charlotte Violence",
-      description: "Charlotte-Mecklenburg Police arrest 12 suspected gang members in coordinated operation. Focus on reducing gun violence in east Charlotte neighborhoods. Seized weapons, drugs, and cash.",
-      link: "#",
-      pubDate: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
-      category: "Gang Activity",
-      location: "Charlotte, NC",
-      source: "Charlotte-Mecklenburg Police"
-    },
-    {
-      id: "6",
-      title: "Cybercrime Unit Warns of Romance Scam Targeting NC Seniors",
-      description: "NC Attorney General's Office reports $2.3M stolen from elderly residents through online romance scams. Tips provided for identifying and avoiding fraudulent relationships targeting vulnerable adults.",
-      link: "#",
-      pubDate: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
-      category: "Fraud Alert",
-      location: "Statewide, NC",
-      source: "NC Attorney General's Office"
-    }
-  ];
-
   const fetchRSSData = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // In production, implement actual RSS parsing here
-      // const response = await fetch('/api/rss-proxy?url=https://ncfightingcrime.com/rss');
-      // const rssData = await response.json();
-      
-      // Simulate loading for demo
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setRssItems(mockRSSData);
+
+      // Fetch real RSS feeds only - no mock data
+      const feedData = await fetchMultipleRSSFeeds(NC_RSS_FEEDS);
+
+      if (feedData && feedData.length > 0) {
+        setRssItems(feedData.slice(0, 12)); // Limit to 12 most recent items
+      } else {
+        setError('No crime news available. Please check back later.');
+        setRssItems([]);
+      }
     } catch (err) {
-      setError('Failed to load RSS feed');
+      setError('Failed to load crime news feed. Please try again later.');
       console.error('RSS fetch error:', err);
+      setRssItems([]); // Empty on error - no mock data
     } finally {
       setLoading(false);
     }

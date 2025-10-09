@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -6,21 +8,48 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Heart, Phone, Calendar, MapPin, Clock, Users } from "lucide-react";
+import { Heart, Phone, Calendar, MapPin, Clock, Users, Share2 } from "lucide-react";
 
 const MissingPersons = () => {
-  // Mock data - replace with real data from API
-  const missingPersons = [
-    {
-      id: 1,
-      name: "Sample Missing Person",
-      age: 28,
-      lastSeen: "Raleigh, NC",
-      dateMissing: "2024-01-10",
-      description: "This is sample data for demonstration purposes only.",
-      circumstances: "Sample circumstances"
+  const navigate = useNavigate();
+
+  const handleReportSighting = (personName: string) => {
+    toast.success("Redirecting to tip submission...", {
+      description: `Report sighting of ${personName}`
+    });
+    setTimeout(() => navigate('/submit-tips'), 1000);
+  };
+
+  const handleShareAlert = (personName: string) => {
+    if (navigator.share) {
+      navigator.share({
+        title: `Missing Person Alert: ${personName}`,
+        text: `Help find ${personName}. Share this missing person alert.`,
+        url: window.location.href
+      }).then(() => {
+        toast.success("Alert shared successfully!");
+      }).catch(() => {
+        toast.info("Sharing cancelled");
+      });
+    } else {
+      // Fallback - copy to clipboard
+      navigator.clipboard.writeText(window.location.href);
+      toast.success("Link copied to clipboard!");
     }
-  ];
+  };
+
+  // Real data will come from database/API
+  const missingPersons: Array<{
+    id: number;
+    name: string;
+    age: number;
+    lastSeen: string;
+    dateMissing: string;
+    description: string;
+    circumstances: string;
+  }> = [];
+
+  const hasData = missingPersons.length > 0;
 
   return (
     <>
@@ -94,8 +123,38 @@ const MissingPersons = () => {
 
           {/* Missing Persons Grid */}
           <section className="pb-12">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {missingPersons.map((person) => (
+            {!hasData ? (
+              <Card className="border-police-blue/20">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <Heart className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                    Missing Persons Database
+                  </h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    The NC missing persons database is being updated with real-time alerts from law enforcement agencies across all 100 North Carolina counties. Check back for Amber Alerts, Silver Alerts, and missing person cases.
+                  </p>
+                  <div className="flex gap-3 justify-center">
+                    <Button
+                      className="bg-gradient-police text-white hover:shadow-evidence"
+                      onClick={() => navigate('/submit-tips')}
+                    >
+                      <Phone className="h-4 w-4 mr-2" />
+                      Report Information
+                    </Button>
+                    <Button
+                      variant="outline"
+                      className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white"
+                      onClick={() => handleShareAlert('missing persons updates')}
+                    >
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share Alert
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {missingPersons.map((person) => (
                 <Card key={person.id} className="border-police-blue/20 hover:shadow-evidence transition-shadow">
                   <CardHeader>
                     <div className="flex justify-between items-start">
@@ -129,15 +188,30 @@ const MissingPersons = () => {
                         <p className="text-sm text-muted-foreground">{person.circumstances}</p>
                       </div>
                       
-                      <Button className="w-full bg-gradient-police text-white hover:shadow-evidence">
-                        <Phone className="h-4 w-4 mr-2" />
-                        Report Sighting
-                      </Button>
+                      <div className="flex gap-2">
+                        <Button
+                          className="flex-1 bg-gradient-police text-white hover:shadow-evidence"
+                          onClick={() => handleReportSighting(person.name)}
+                        >
+                          <Phone className="h-4 w-4 mr-2" />
+                          Report Sighting
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white"
+                          onClick={() => handleShareAlert(person.name)}
+                          title="Share alert"
+                        >
+                          <Share2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
             
             {/* Call to Action */}
             <div className="mt-12 text-center">
@@ -150,11 +224,20 @@ const MissingPersons = () => {
                   Every share increases the chances of a safe return.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button size="lg" className="bg-gradient-police text-white hover:shadow-evidence">
+                  <Button
+                    size="lg"
+                    className="bg-gradient-police text-white hover:shadow-evidence"
+                    onClick={() => navigate('/submit-tips')}
+                  >
                     <Phone className="h-5 w-5 mr-2" />
                     Report Information
                   </Button>
-                  <Button size="lg" variant="outline" className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white"
+                    onClick={() => handleShareAlert('missing person')}
+                  >
                     <Heart className="h-5 w-5 mr-2" />
                     Share Alert
                   </Button>

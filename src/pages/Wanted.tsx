@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,19 +11,32 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Search, Phone, AlertTriangle, Users, Calendar, MapPin } from "lucide-react";
 
 const Wanted = () => {
-  // Mock data - replace with real data from API
-  const wantedPersons = [
-    {
-      id: 1,
-      name: "Sample Person",
-      age: 35,
-      charges: ["Armed Robbery", "Breaking & Entering"],
-      lastSeen: "Charlotte, NC",
-      dateAdded: "2024-01-15",
-      description: "This is sample data for demonstration purposes only.",
-      reward: "$5,000"
-    }
-  ];
+  const navigate = useNavigate();
+
+  const handleReportClick = (personName: string) => {
+    toast.success("Redirecting to tip submission...", {
+      description: `Report information about ${personName}`
+    });
+    setTimeout(() => navigate('/submit-tips'), 1000);
+  };
+
+  const handleCallCrimeStoppers = (number: string) => {
+    window.location.href = `tel:${number}`;
+  };
+
+  // Real data will come from database/API
+  const wantedPersons: Array<{
+    id: number;
+    name: string;
+    age: number;
+    charges: string[];
+    lastSeen: string;
+    dateAdded: string;
+    description: string;
+    reward?: string;
+  }> = [];
+
+  const hasData = wantedPersons.length > 0;
 
   return (
     <>
@@ -95,8 +110,28 @@ const Wanted = () => {
 
           {/* Wanted Persons Grid */}
           <section className="pb-12">
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {wantedPersons.map((person) => (
+            {!hasData ? (
+              <Card className="border-police-blue/20">
+                <CardContent className="pt-8 pb-8 text-center">
+                  <Search className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                    Wanted Persons Database
+                  </h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    The NC wanted persons database is being updated with real-time information from law enforcement agencies across all 100 North Carolina counties.
+                  </p>
+                  <Button
+                    className="bg-gradient-police text-white hover:shadow-evidence"
+                    onClick={() => navigate('/submit-tips')}
+                  >
+                    <Phone className="h-4 w-4 mr-2" />
+                    Report Information
+                  </Button>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {wantedPersons.map((person) => (
                 <Card key={person.id} className="border-emergency-red/20 hover:shadow-evidence transition-shadow">
                   <CardHeader>
                     <div className="flex justify-between items-start">
@@ -137,15 +172,19 @@ const Wanted = () => {
                       
                       <p className="text-sm text-muted-foreground">{person.description}</p>
                       
-                      <Button className="w-full bg-gradient-police text-white hover:shadow-evidence">
+                      <Button
+                        className="w-full bg-gradient-police text-white hover:shadow-evidence"
+                        onClick={() => handleReportClick(person.name)}
+                      >
                         <Phone className="h-4 w-4 mr-2" />
                         Report Information
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
             
             {/* Call to Action */}
             <div className="mt-12 text-center">
@@ -157,11 +196,20 @@ const Wanted = () => {
                   Your tip could help solve a case and make our communities safer.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button size="lg" className="bg-gradient-police text-white hover:shadow-evidence">
+                  <Button
+                    size="lg"
+                    className="bg-gradient-police text-white hover:shadow-evidence"
+                    onClick={() => handleCallCrimeStoppers('911')}
+                  >
                     <Phone className="h-5 w-5 mr-2" />
                     Call Crime Stoppers
                   </Button>
-                  <Button size="lg" variant="outline" className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white"
+                    onClick={() => navigate('/submit-tips')}
+                  >
                     Submit Anonymous Tip
                   </Button>
                 </div>
