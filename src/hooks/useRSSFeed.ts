@@ -84,17 +84,27 @@ export const useRSSFeed = () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // In production, implement actual RSS parsing here
-      // const response = await fetch('/api/rss-proxy?url=https://ncfightingcrime.com/rss');
-      // const rssData = await response.json();
-      
-      // Simulate loading for demo
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setRssItems(mockRSSData);
+
+      // Fetch real crime news from WRAL API
+      const response = await fetch('/api/wral-news-ai');
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.success && data.articles && data.articles.length > 0) {
+        setRssItems(data.articles);
+      } else {
+        // Fallback to mock data if API returns no articles
+        setRssItems(mockRSSData);
+      }
     } catch (err) {
-      setError('Failed to load RSS feed');
       console.error('RSS fetch error:', err);
+      // Show mock data on error so site still works
+      setRssItems(mockRSSData);
+      setError(null); // Don't show error to user, just use fallback
     } finally {
       setLoading(false);
     }

@@ -31,10 +31,9 @@ const HeroSection = () => {
           </h1>
           
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
-            Your trusted source for <strong className="text-foreground">real-time NC crime news</strong>, 
-            <strong className="text-emergency-red"> most wanted alerts</strong>, and 
-            <strong className="text-police-blue"> community safety information</strong>. 
-            Protecting communities across all 100 counties.
+            Your trusted source for <strong className="text-foreground">real-time NC crime news</strong>,
+            <strong className="text-emergency-red"> most wanted alerts</strong>, and
+            <strong className="text-police-blue"> community safety information</strong>.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
@@ -60,24 +59,6 @@ const HeroSection = () => {
             >
               Submit Anonymous Tip
             </Button>
-          </div>
-          
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="bg-card/70 backdrop-blur-md p-6 rounded-lg border border-police-blue/30 hover:border-police-blue/50 transition-all duration-300 hover:shadow-evidence">
-              <h3 className="text-3xl font-bold text-police-blue mb-2">24/7</h3>
-              <p className="text-foreground font-medium">Crime Tip Hotline</p>
-              <p className="text-xs text-muted-foreground mt-1">Anonymous reporting available</p>
-            </div>
-            <div className="bg-card/70 backdrop-blur-md p-6 rounded-lg border border-emergency-red/30 hover:border-emergency-red/50 transition-all duration-300 hover:shadow-crime">
-              <h3 className="text-3xl font-bold text-emergency-red mb-2">2,500+</h3>
-              <p className="text-foreground font-medium">Active Cases</p>
-              <p className="text-xs text-muted-foreground mt-1">Real-time tracking across NC</p>
-            </div>
-            <div className="bg-card/70 backdrop-blur-md p-6 rounded-lg border border-evidence-green/30 hover:border-evidence-green/50 transition-all duration-300 hover:shadow-glow">
-              <h3 className="text-3xl font-bold text-evidence-green mb-2">100</h3>
-              <p className="text-foreground font-medium">Counties Covered</p>
-              <p className="text-xs text-muted-foreground mt-1">Statewide crime awareness</p>
-            </div>
           </div>
         </div>
       </div>
