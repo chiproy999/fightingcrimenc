@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchMultipleRSSFeeds, NC_RSS_FEEDS } from '@/lib/rssParser';
+import { fetchMultipleRSSFeeds } from '@/lib/rssParser';
 
 export interface RSSItem {
   id: string;
@@ -22,13 +22,13 @@ export const useRSSFeed = () => {
       setLoading(true);
       setError(null);
 
-      // Fetch real RSS feeds only - no mock data
-      const feedData = await fetchMultipleRSSFeeds(NC_RSS_FEEDS);
+      // Fetch RSS feeds via Vercel serverless function (uses RSSHub)
+      const feedData = await fetchMultipleRSSFeeds();
 
       if (feedData && feedData.length > 0) {
-        setRssItems(feedData.slice(0, 12)); // Limit to 12 most recent items
+        setRssItems(feedData.slice(0, 20)); // Show 20 most recent items
       } else {
-        setError('No crime news available. Please check back later.');
+        setError('Crime news feed is being updated. Check back soon for the latest NC crime alerts and updates.');
         setRssItems([]);
       }
     } catch (err) {

@@ -17,7 +17,7 @@ interface SEOHeadProps {
 const SEOHead = ({
   title = "Fighting Crime NC - #1 North Carolina Crime News & Most Wanted Database",
   description = "Fighting Crime NC is North Carolina's premier crime news source. Get real-time NC crime alerts, wanted suspect information, missing persons updates, and anonymous tip reporting. Trusted by law enforcement and communities statewide.",
-  keywords = "North Carolina crime news, NC wanted persons, NC public safety, North Carolina law enforcement, crime tips NC, wanted suspects North Carolina, NC sheriff department, crime prevention NC",
+  keywords = "North Carolina crime news, NC crime, NC wanted persons, NC most wanted, NC arrests, NC sheriff, Wake County crime, Mecklenburg County crime, Durham County crime, Guilford County crime, Forsyth County crime, Cumberland County crime, Buncombe County crime, New Hanover County crime, Charlotte crime news, Raleigh crime news, Greensboro crime news, Durham crime news, Winston-Salem crime, Fayetteville crime, Asheville crime, Wilmington crime, NC missing persons, NC amber alert, NC silver alert, NC public safety, North Carolina law enforcement, crime tips NC, wanted suspects North Carolina, NC sheriff department, crime prevention NC, NC drug arrests, NC DUI arrests, NC gang crime, NC highway patrol, NC state police",
   ogImage = "/images/og-crime-fighting-nc.jpg",
   canonicalUrl,
   articlePublishedTime,

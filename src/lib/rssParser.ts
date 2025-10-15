@@ -52,7 +52,7 @@ export const parseRSSFeed = (xmlString: string, source: string): RSSItem[] => {
 };
 
 /**
- * Fetch RSS feed via CORS proxy
+ * Fetch RSS feed via CORS proxy (DEPRECATED - kept for backwards compatibility)
  */
 export const fetchRSSFeed = async (config: RSSFeedConfig): Promise<RSSItem[]> => {
   try {
@@ -80,27 +80,37 @@ export const fetchRSSFeed = async (config: RSSFeedConfig): Promise<RSSItem[]> =>
 };
 
 /**
- * Fetch multiple RSS feeds and combine them
+ * Fetch crime news via Vercel serverless function
+ * Uses WRAL RSS feed with AI rewriting for unique content
  */
-export const fetchMultipleRSSFeeds = async (configs: RSSFeedConfig[]): Promise<RSSItem[]> => {
-  const results = await Promise.allSettled(
-    configs.map(config => fetchRSSFeed(config))
-  );
+export const fetchMultipleRSSFeeds = async (configs?: RSSFeedConfig[]): Promise<RSSItem[]> => {
+  try {
+    // Call our WRAL News AI endpoint
+    const response = await fetch('/api/wral-news-ai', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
 
-  const allItems: RSSItem[] = [];
-
-  results.forEach((result, index) => {
-    if (result.status === 'fulfilled') {
-      allItems.push(...result.value);
-    } else {
-      console.warn(`Failed to fetch feed from ${configs[index].source}:`, result.reason);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  });
 
-  // Sort by publication date (newest first)
-  return allItems.sort((a, b) =>
-    new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
-  );
+    const data = await response.json();
+
+    if (!data.success || !data.articles) {
+      throw new Error('Invalid response from news API');
+    }
+
+    // Return articles directly (already formatted)
+    return data.articles.sort((a: RSSItem, b: RSSItem) =>
+      new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
+    );
+  } catch (error) {
+    console.error('Error fetching crime news from API:', error);
+    throw error;
+  }
 };
 
 /**
