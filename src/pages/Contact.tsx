@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Phone, Mail, MapPin, Clock, CheckCircle, Shield } from "lucide-react";
+import { Phone, Mail, MapPin, Clock, CheckCircle, Shield, AlertCircle } from "lucide-react";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,12 +20,40 @@ const Contact = () => {
     inquiryType: ''
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    setIsSubmitted(true);
-    setFormData({ name: '', email: '', subject: '', message: '', inquiryType: '' });
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      // Initialize EmailJS with your public key
+      emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY');
+
+      // Send email
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID',
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID',
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          inquiry_type: formData.inquiryType,
+          to_email: 'info@fightingcrimenc.com'
+        }
+      );
+
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', subject: '', message: '', inquiryType: '' });
+    } catch (err) {
+      console.error('EmailJS Error:', err);
+      setError('Failed to send message. Please try again or email us directly at info@fightingcrimenc.com');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -86,6 +115,15 @@ const Contact = () => {
                   </p>
                 </CardHeader>
                 <CardContent>
+                  {error && (
+                    <Alert className="border-emergency-red/50 mb-6">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription className="text-emergency-red">
+                        {error}
+                      </AlertDescription>
+                    </Alert>
+                  )}
+
                   {isSubmitted ? (
                     <Alert className="border-evidence-green/50">
                       <CheckCircle className="h-4 w-4" />
@@ -172,12 +210,13 @@ const Contact = () => {
                         />
                       </div>
 
-                      <Button 
-                        type="submit" 
+                      <Button
+                        type="submit"
                         className="w-full bg-gradient-police text-white hover:shadow-evidence"
                         size="lg"
+                        disabled={isSubmitting}
                       >
-                        Send Message
+                        {isSubmitting ? 'Sending...' : 'Send Message'}
                       </Button>
                     </form>
                   )}
