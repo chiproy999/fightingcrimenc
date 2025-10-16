@@ -32,6 +32,11 @@ const RSS_SOURCES = [
     url: 'https://rss.app/feeds/t96LtdAzAj7QgM23.xml',
     source: 'Spectrum News',
     location: 'Charlotte, NC'
+  },
+  {
+    url: 'https://rss.app/feeds/tuM05JUF7u1g90pU.xml',
+    source: 'NC Crime (Multi-Source)',
+    location: 'Statewide, NC'
   }
 ];
 
@@ -120,6 +125,45 @@ function cleanText(text: string): string {
     .trim();
 }
 
+function deduplicateArticles(articles: NewsArticle[]): NewsArticle[] {
+  const seen = new Map<string, NewsArticle>();
+
+  for (const article of articles) {
+    // Normalize title for comparison
+    const normalizedTitle = article.title.toLowerCase().replace(/[^\w\s]/g, '').trim();
+
+    // Check if we've seen a similar title
+    let isDuplicate = false;
+    for (const [seenTitle, seenArticle] of seen) {
+      // If titles are very similar (80%+ match), consider duplicate
+      const similarity = calculateSimilarity(normalizedTitle, seenTitle);
+      if (similarity > 0.8) {
+        isDuplicate = true;
+        // Keep the one with more info (longer description or has image)
+        if (article.description.length > seenArticle.description.length ||
+            (article.image && !seenArticle.image)) {
+          seen.set(seenTitle, article);
+        }
+        break;
+      }
+    }
+
+    if (!isDuplicate) {
+      seen.set(normalizedTitle, article);
+    }
+  }
+
+  return Array.from(seen.values());
+}
+
+function calculateSimilarity(str1: string, str2: string): number {
+  const words1 = new Set(str1.split(/\s+/));
+  const words2 = new Set(str2.split(/\s+/));
+  const intersection = new Set([...words1].filter(x => words2.has(x)));
+  const union = new Set([...words1, ...words2]);
+  return intersection.size / union.size;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate=3600');
@@ -149,13 +193,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     });
 
+    // Deduplicate articles by title similarity
+    const uniqueArticles = deduplicateArticles(allArticles);
+
     // Sort by date (newest first)
-    allArticles.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
+    uniqueArticles.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
 
     return res.status(200).json({
       success: true,
-      articles: allArticles.slice(0, 30), // Return top 30
-      totalArticles: allArticles.length,
+      articles: uniqueArticles.slice(0, 30), // Return top 30
+      totalArticles: uniqueArticles.length,
+      duplicatesRemoved: allArticles.length - uniqueArticles.length,
       sources: RSS_SOURCES.length,
       timestamp: new Date().toISOString()
     });
