@@ -85,8 +85,8 @@ export const useRSSFeed = () => {
       setLoading(true);
       setError(null);
 
-      // Fetch real crime news from WRAL API
-      const response = await fetch('/api/wral-news-ai');
+      // Fetch real crime news from all 4 sources
+      const response = await fetch('/api/multi-source-news');
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
