@@ -129,12 +129,12 @@ function simpleRewrite(title: string, description: string): { title: string; des
   // For now, just clean up and rephrase slightly
   // TODO: Replace with Claude API call
 
-  let rewrittenTitle = title
+  const rewrittenTitle = title
     .replace(/^WRAL\.com\s*[-:]\s*/i, '')
     .replace(/\s*\|\s*WRAL\.com$/i, '')
     .trim();
 
-  let rewrittenDesc = description
+  const rewrittenDesc = description
     .replace(/<[^>]+>/g, '') // Strip HTML
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')

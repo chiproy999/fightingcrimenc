@@ -25,7 +25,7 @@ export const Analytics = () => {
 };
 
 // Helper functions to track events (use these throughout your app)
-export const trackEvent = (eventName: string, parameters?: Record<string, any>) => {
+export const trackEvent = (eventName: string, parameters?: Record<string, unknown>) => {
   if (window.gtag) {
     window.gtag('event', eventName, parameters);
   }
@@ -68,8 +68,8 @@ export const trackSearchQuery = (query: string, resultsCount: number) => {
 // Declare global window types
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
-    fbq?: (...args: any[]) => void;
-    dataLayer?: any[];
+    gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }

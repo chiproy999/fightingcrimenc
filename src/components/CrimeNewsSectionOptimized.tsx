@@ -124,7 +124,7 @@ const CrimeNewsSection = memo(() => {
             >
               <CardHeader className="flex-shrink-0">
                 <div className="flex flex-wrap items-center gap-2 mb-3">
-                  <Badge variant={getSeverityColor(news.severity) as any} className="text-xs">
+                  <Badge variant={getSeverityColor(news.severity) as "default" | "destructive" | "outline" | "secondary"} className="text-xs">
                     {getCategoryIcon(news.category)} {news.category}
                   </Badge>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
