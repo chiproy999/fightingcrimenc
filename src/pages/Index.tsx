@@ -32,17 +32,20 @@ const Index = () => {
       {/* Critical above-the-fold content */}
       <div className="min-h-screen bg-background">
         <Header />
-        <HeroSection />
         
-        {/* RSS Feed - High priority content */}
-        <ComponentErrorBoundary>
-          <RSSFeed />
-        </ComponentErrorBoundary>
+        <main id="main-content" role="main">
+          <HeroSection />
+          
+          {/* RSS Feed - High priority content */}
+          <ComponentErrorBoundary>
+            <RSSFeed />
+          </ComponentErrorBoundary>
 
-        {/* FAQ Section */}
-        <ComponentErrorBoundary>
-          <FAQSection />
-        </ComponentErrorBoundary>
+          {/* FAQ Section */}
+          <ComponentErrorBoundary>
+            <FAQSection />
+          </ComponentErrorBoundary>
+        </main>
 
         {/* Footer */}
         <ComponentErrorBoundary>

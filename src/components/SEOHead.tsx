@@ -38,6 +38,7 @@ const SEOHead = ({
 
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://fightingcrimenc.com';
   const currentUrl = canonicalUrl || (typeof window !== 'undefined' ? window.location.href : baseUrl);
+  const fullImageUrl = ogImage.startsWith('http') ? ogImage : `${baseUrl}${ogImage}`;
 
   // In development, keep the browser tab/omnibox title blank to avoid confusion
   // with unrelated feature work (e.g., Gmail/Facebook automation flows).
@@ -98,9 +99,10 @@ const SEOHead = ({
       <meta property="og:url" content={currentUrl} />
       <meta property="og:title" content={effectiveTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={fullImageUrl} />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
+      <meta property="og:image:alt" content="Fighting Crime NC - North Carolina Crime News" />
       <meta property="og:site_name" content="Fighting Crime NC" />
       <meta property="og:locale" content="en_US" />
       

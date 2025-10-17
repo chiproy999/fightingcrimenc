@@ -42,6 +42,7 @@ const HeroSection = () => {
               size="lg" 
               className="bg-gradient-police text-white hover:shadow-evidence px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
               onClick={() => navigate('/wanted')}
+              aria-label="View list of wanted persons in North Carolina"
             >
               View Wanted Persons
             </Button>
@@ -50,6 +51,7 @@ const HeroSection = () => {
               variant="outline"
               className="border-emergency-red text-emergency-red hover:bg-emergency-red hover:text-white px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
               onClick={() => navigate('/crime-news')}
+              aria-label="Read latest North Carolina crime news and updates"
             >
               Latest Crime News
             </Button>
@@ -57,6 +59,7 @@ const HeroSection = () => {
               size="lg" 
               className="bg-gradient-danger text-white hover:shadow-crime px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
               onClick={() => navigate('/submit-tips')}
+              aria-label="Submit an anonymous crime tip to law enforcement"
             >
               Submit Anonymous Tip
             </Button>

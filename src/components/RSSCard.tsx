@@ -21,7 +21,7 @@ const RSSCard = ({ item, getCategoryColor, formatTimeAgo }: RSSCardProps) => {
       <CardHeader className="flex-shrink-0">
         <div className="flex flex-wrap gap-2 mb-2">
           {item.category && (
-            <Badge variant={getCategoryColor(item.category) as any} className="text-xs">
+            <Badge variant={getCategoryColor(item.category) as "default" | "destructive" | "outline" | "secondary"} className="text-xs">
               {item.category}
             </Badge>
           )}

@@ -24,10 +24,11 @@ const MobileMenu = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden relative h-12 w-12 hover:bg-primary/10"
+          className="lg:hidden relative h-12 w-12 hover:bg-primary/10 transition-colors"
           aria-label="Open mobile menu"
+          aria-expanded={isOpen}
         >
-          <Menu className="h-6 w-6" />
+          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
       </SheetTrigger>
       <SheetContent side="right" className="w-[300px] bg-background/95 backdrop-blur-lg border-l border-border/50">

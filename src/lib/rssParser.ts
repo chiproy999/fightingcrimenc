@@ -109,8 +109,86 @@ export const fetchMultipleRSSFeeds = async (configs?: RSSFeedConfig[]): Promise<
     );
   } catch (error) {
     console.error('Error fetching crime news from API:', error);
+    
+    // In development, provide mock data as fallback
+    if (import.meta.env.DEV) {
+      console.info('Using mock data for development');
+      return getMockCrimeNews();
+    }
+    
     throw error;
   }
+};
+
+/**
+ * Mock crime news data for development
+ */
+const getMockCrimeNews = (): RSSItem[] => {
+  const now = new Date();
+  const mockArticles: RSSItem[] = [
+    {
+      id: 'mock-1',
+      title: 'Charlotte Police Arrest Suspect in Armed Robbery Investigation',
+      description: 'Charlotte-Mecklenburg Police Department announced the arrest of a suspect connected to multiple armed robberies in the uptown area. The suspect was apprehended following a coordinated investigation.',
+      link: '#',
+      pubDate: new Date(now.getTime() - 2 * 60 * 60 * 1000).toISOString(),
+      category: 'Robbery',
+      location: 'Charlotte, NC',
+      source: 'Charlotte-Mecklenburg Police Department'
+    },
+    {
+      id: 'mock-2',
+      title: 'Raleigh Police Seeking Public Assistance in Missing Person Case',
+      description: 'The Raleigh Police Department is asking for the public\'s help in locating a missing person last seen in the downtown area. Anyone with information is urged to contact authorities.',
+      link: '#',
+      pubDate: new Date(now.getTime() - 5 * 60 * 60 * 1000).toISOString(),
+      category: 'Missing Person',
+      location: 'Raleigh, NC',
+      source: 'Raleigh Police Department'
+    },
+    {
+      id: 'mock-3',
+      title: 'Durham County Sheriff\'s Office Reports Major Drug Trafficking Bust',
+      description: 'A multi-agency operation led by the Durham County Sheriff\'s Office resulted in the seizure of significant quantities of illegal narcotics and multiple arrests in an ongoing drug trafficking investigation.',
+      link: '#',
+      pubDate: new Date(now.getTime() - 8 * 60 * 60 * 1000).toISOString(),
+      category: 'Drug Crimes',
+      location: 'Durham, NC',
+      source: 'Durham County Sheriff\'s Office'
+    },
+    {
+      id: 'mock-4',
+      title: 'Winston-Salem Police Investigate Overnight Shooting Incident',
+      description: 'Winston-Salem Police responded to reports of gunfire in the early morning hours. One person was transported to a local hospital with non-life-threatening injuries. The investigation is ongoing.',
+      link: '#',
+      pubDate: new Date(now.getTime() - 12 * 60 * 60 * 1000).toISOString(),
+      category: 'Crime News',
+      location: 'Winston-Salem, NC',
+      source: 'Winston-Salem Police Department'
+    },
+    {
+      id: 'mock-5',
+      title: 'NC Highway Patrol Announces Increased DUI Enforcement Campaign',
+      description: 'The North Carolina Highway Patrol announced a statewide campaign to reduce impaired driving. Enhanced patrols will be in effect across all 100 counties with a focus on high-risk areas.',
+      link: '#',
+      pubDate: new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+      category: 'Traffic Safety',
+      location: 'North Carolina',
+      source: 'NC State Highway Patrol'
+    },
+    {
+      id: 'mock-6',
+      title: 'Fayetteville Police Department Warns of Recent Fraud Schemes',
+      description: 'The Fayetteville Police Department issued a warning about sophisticated fraud schemes targeting local residents. Authorities advise residents to verify all requests for personal information or money.',
+      link: '#',
+      pubDate: new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+      category: 'Fraud Alert',
+      location: 'Fayetteville, NC',
+      source: 'Fayetteville Police Department'
+    }
+  ];
+  
+  return mockArticles;
 };
 
 /**
