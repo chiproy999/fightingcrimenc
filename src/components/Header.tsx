@@ -8,9 +8,18 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      <div className="container mx-auto container-mobile">
-        <div className="flex items-center justify-between h-16">
+    <>
+      {/* Skip to main content link for keyboard navigation */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded"
+      >
+        Skip to main content
+      </a>
+      
+      <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+        <div className="container mx-auto container-mobile">
+          <div className="flex items-center justify-between h-16">
           {/* Logo and Title */}
           <div className="flex items-center space-x-3">
             <div className="bg-gradient-police p-2 rounded-lg shadow-evidence">
@@ -90,6 +99,7 @@ const Header = () => {
         </div>
       </div>
     </header>
+    </>
   );
 };
 
