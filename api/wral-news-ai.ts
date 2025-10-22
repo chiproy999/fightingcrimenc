@@ -1,5 +1,14 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import * as he from 'he';
+import {
+  TEXT_CONFIG,
+  CACHE_CONFIG,
+  API_CONFIG,
+  AI_CONFIG,
+  URLS,
+  CORS_HEADERS,
+  HTTP_CONFIG
+} from './config/constants';
 
 /**
  * WRAL News AI Rewriter
@@ -156,26 +165,26 @@ function simpleRewrite(title: string, description: string): { title: string; des
   // Helper function to truncate text at word/sentence boundaries
   function truncateGracefully(text: string, maxLength: number): string {
     if (!text || text.length <= maxLength) return text;
-    
+
     // First, try to truncate at sentence boundary (look for the last sentence ending within maxLength)
     const truncated = text.substring(0, maxLength);
     const sentenceMatch = truncated.match(/[.!?](?=\s)/g);
     if (sentenceMatch && sentenceMatch.length > 0) {
       // Find the position of the last sentence ending
       const lastPuncIndex = truncated.lastIndexOf(sentenceMatch[sentenceMatch.length - 1]);
-      // Only use sentence boundary if it retains at least 20% of max length
-      if (lastPuncIndex > maxLength * 0.2) {
+      // Only use sentence boundary if it retains at least minimum ratio of max length
+      if (lastPuncIndex > maxLength * TEXT_CONFIG.SENTENCE_TRUNCATE_MIN_RATIO) {
         return text.substring(0, lastPuncIndex + 1).trim();
       }
     }
-    
+
     // Otherwise, truncate at word boundary
     const lastSpace = truncated.lastIndexOf(' ');
-    
-    if (lastSpace > maxLength * 0.8) { // Only if we keep at least 80% of desired length
+
+    if (lastSpace > maxLength * TEXT_CONFIG.WORD_TRUNCATE_MIN_RATIO) {
       return truncated.substring(0, lastSpace).trim() + '...';
     }
-    
+
     return truncated.trim() + '...';
   }
   
@@ -190,19 +199,19 @@ function simpleRewrite(title: string, description: string): { title: string; des
     .replace(/^\w+,\s+\w+\s+\d+,?\s+\d{4}\s*[-:]\s*/i, '') // Remove datelines
     .trim();
   
-  // Truncate title to reasonable length (100 chars)
-  rewrittenTitle = truncateGracefully(rewrittenTitle, 100);
-  
+  // Truncate title to reasonable length
+  rewrittenTitle = truncateGracefully(rewrittenTitle, TEXT_CONFIG.MAX_TITLE_LENGTH);
+
   // Clean and normalize description
   let rewrittenDesc = cleanHTML(description);
-  
+
   // Remove common author/dateline patterns from description (must be more robust)
   rewrittenDesc = rewrittenDesc
     .replace(/^By\s+[^-]+-\s*/i, '')
     .replace(/^\w+,\s+\w+\s+\d+,?\s+\d{4}\s*[-:—]\s*/i, '') // Include em dash
     .replace(/^\w+\s+—\s+/i, '') // Remove "CITYNAME — " patterns
     .trim();
-  
+
   // Add source attribution if not present
   if (!rewrittenDesc.toLowerCase().includes('according to') &&
       !rewrittenDesc.toLowerCase().includes('wral')) {
@@ -210,9 +219,9 @@ function simpleRewrite(title: string, description: string): { title: string; des
       rewrittenDesc = `According to WRAL News, ${rewrittenDesc.charAt(0).toLowerCase() + rewrittenDesc.slice(1)}`;
     }
   }
-  
-  // Truncate description gracefully (500 chars)
-  rewrittenDesc = truncateGracefully(rewrittenDesc, 500);
+
+  // Truncate description gracefully
+  rewrittenDesc = truncateGracefully(rewrittenDesc, TEXT_CONFIG.MAX_DESCRIPTION_LENGTH);
   
   return {
     title: rewrittenTitle,
@@ -263,23 +272,23 @@ async function rewriteWithAI(
   }
 
   // Check if Claude API key is provided
-  if (!apiKey || apiKey === 'YOUR_ANTHROPIC_API_KEY') {
+  if (!apiKey || apiKey === AI_CONFIG.UNSET_API_KEY_PLACEHOLDER) {
     console.log('⚠️  No Claude API key - using simple rewrite');
     return simpleRewrite(title, description);
   }
 
   try {
     // Call Claude API to rewrite
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch(URLS.ANTHROPIC_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+        'anthropic-version': AI_CONFIG.ANTHROPIC_API_VERSION
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
-        max_tokens: 1024,
+        model: AI_CONFIG.CLAUDE_MODEL,
+        max_tokens: AI_CONFIG.MAX_TOKENS,
         messages: [{
           role: 'user',
           content: `Rewrite this crime news article for a North Carolina crime news website.
@@ -335,12 +344,10 @@ Return as JSON:
  * Parse WRAL RSS feed
  */
 async function fetchWRALFeed(): Promise<WRALArticle[]> {
-  const RSS_URL = 'https://www.wral.com/news/rss/48';
-
   try {
-    const response = await fetch(RSS_URL, {
+    const response = await fetch(URLS.WRAL_RSS_URL, {
       headers: {
-        'User-Agent': 'FightingCrimeNC/1.0 (+https://fightingcrimenc.com)'
+        'User-Agent': HTTP_CONFIG.RSS_USER_AGENT
       }
     });
 
@@ -397,7 +404,7 @@ async function fetchWRALFeed(): Promise<WRALArticle[]> {
       const location = extractLocation(title, description);
 
       articles.push({
-        id: `wral-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        id: `wral-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
         title,
         link,
         pubDate,
@@ -424,16 +431,16 @@ async function fetchWRALFeed(): Promise<WRALArticle[]> {
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  Object.entries(CORS_HEADERS).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // Cache for 30 minutes
-  res.setHeader('Cache-Control', 's-maxage=1800, stale-while-revalidate=3600');
+  // Cache configuration
+  res.setHeader('Cache-Control', `s-maxage=${CACHE_CONFIG.WRAL_NEWS_CACHE_SECONDS}, stale-while-revalidate=${CACHE_CONFIG.WRAL_NEWS_SWR_SECONDS}`);
 
   try {
     console.log('🚀 Fetching WRAL crime news...');
@@ -508,8 +515,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Sort by date
     articles.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
 
-    // Return top 20
-    const topArticles = articles.slice(0, 20);
+    // Return top articles
+    const topArticles = articles.slice(0, API_CONFIG.MAX_WRAL_ARTICLES);
 
     let message = 'Using local-only cleaning (add REWRITE_API_URL or ANTHROPIC_API_KEY for AI)';
     if (customApiEnabled) {

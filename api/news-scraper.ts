@@ -1,4 +1,11 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import {
+  HTTP_CONFIG,
+  CACHE_CONFIG,
+  API_CONFIG,
+  CORS_HEADERS,
+  TEXT_CONFIG
+} from './config/constants';
 
 /**
  * Web Scraper for NC Police Departments
@@ -53,20 +60,29 @@ function generateId(source: string, title: string): string {
   return `${source}-${Math.abs(hash)}-${Date.now()}`;
 }
 
-function truncateDescription(description: string, maxLength: number = 300): string {
+function truncateDescription(description: string, maxLength: number = TEXT_CONFIG.MAX_RSS_DESCRIPTION_LENGTH): string {
   if (description.length <= maxLength) return description;
   return description.substring(0, maxLength).trim() + '...';
 }
 
 async function fetchHTML(url: string): Promise<string> {
-  const response = await fetch(url, {
-    headers: {
-      'User-Agent': 'Mozilla/5.0 (compatible; FightingCrimeNC-Bot/1.0)',
-    },
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!response.ok) throw new Error(`HTTP ${response.status}`);
-  return await response.text();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), HTTP_CONFIG.DEFAULT_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': HTTP_CONFIG.USER_AGENT,
+      },
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.text();
+  } catch (error) {
+    clearTimeout(timeoutId);
+    throw error;
+  }
 }
 
 // Individual scrapers
@@ -76,7 +92,7 @@ async function scrapeCharlottePD(): Promise<ScrapedNewsItem[]> {
     const items: ScrapedNewsItem[] = [];
     const articleMatches = html.match(/<article[^>]*>[\s\S]*?<\/article>/gi) || [];
 
-    for (let i = 0; i < Math.min(articleMatches.length, 15); i++) {
+    for (let i = 0; i < Math.min(articleMatches.length, API_CONFIG.MAX_ARTICLES_PER_DEPARTMENT); i++) {
       const article = articleMatches[i];
       const titleMatch = article.match(/<h[2-3][^>]*>(.*?)<\/h[2-3]>/i);
       if (!titleMatch) continue;
@@ -111,7 +127,7 @@ async function scrapeRaleighPD(): Promise<ScrapedNewsItem[]> {
     const items: ScrapedNewsItem[] = [];
     const articleMatches = html.match(/<article[^>]*>[\s\S]*?<\/article>/gi) || [];
 
-    for (let i = 0; i < Math.min(articleMatches.length, 15); i++) {
+    for (let i = 0; i < Math.min(articleMatches.length, API_CONFIG.MAX_ARTICLES_PER_DEPARTMENT); i++) {
       const article = articleMatches[i];
       const titleMatch = article.match(/<h[2-4][^>]*>(.*?)<\/h[2-4]>/i);
       if (!titleMatch) continue;
@@ -146,7 +162,7 @@ async function scrapeWakeSheriff(): Promise<ScrapedNewsItem[]> {
     const items: ScrapedNewsItem[] = [];
     const articleMatches = html.match(/<article[^>]*>[\s\S]*?<\/article>/gi) || [];
 
-    for (let i = 0; i < Math.min(articleMatches.length, 15); i++) {
+    for (let i = 0; i < Math.min(articleMatches.length, API_CONFIG.MAX_ARTICLES_PER_DEPARTMENT); i++) {
       const article = articleMatches[i];
       const titleMatch = article.match(/<h[2-4][^>]*>(.*?)<\/h[2-4]>/i);
       if (!titleMatch) continue;
@@ -176,9 +192,11 @@ async function scrapeWakeSheriff(): Promise<ScrapedNewsItem[]> {
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
+  // CORS headers
+  Object.entries(CORS_HEADERS).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
+  res.setHeader('Cache-Control', `s-maxage=${CACHE_CONFIG.NEWS_SCRAPER_CACHE_SECONDS}, stale-while-revalidate=${CACHE_CONFIG.NEWS_SCRAPER_SWR_SECONDS}`);
 
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });

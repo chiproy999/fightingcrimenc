@@ -9,6 +9,12 @@
     "paths": {
       "@/*": ["./src/*"]
     },
+    // TODO: Gradually enable strict type checking for better code quality
+    // Start by enabling these one at a time and fixing errors:
+    // 1. "noImplicitAny": true (prevents implicit 'any' types)
+    // 2. "strictNullChecks": true (prevents null/undefined bugs)
+    // 3. "noUnusedLocals": true (removes dead code)
+    // 4. "noUnusedParameters": true (removes unused function parameters)
     "noImplicitAny": false,
     "noUnusedParameters": false,
     "skipLibCheck": true,

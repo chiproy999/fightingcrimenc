@@ -1,4 +1,11 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import {
+  HTTP_CONFIG,
+  CACHE_CONFIG,
+  API_CONFIG,
+  CORS_HEADERS,
+  TEXT_CONFIG
+} from './config/constants';
 
 /**
  * RSS Feed Source Configuration
@@ -160,14 +167,14 @@ function parseRSSXML(xml: string, source: RSSFeedSource): RSSItem[] {
           .replace(/&quot;/g, '"')
           .replace(/\s+/g, ' ')
           .trim()
-          .substring(0, 300); // Limit description length
+          .substring(0, TEXT_CONFIG.MAX_RSS_DESCRIPTION_LENGTH);
 
         const link = linkMatch[1].trim();
         const pubDate = pubDateMatch?.[1].trim() || new Date().toISOString();
         const category = categoryMatch?.[1].trim() || extractCategory(title + ' ' + description);
 
         items.push({
-          id: `${source.id}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          id: `${source.id}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
           title,
           link,
           pubDate,
@@ -210,22 +217,22 @@ function extractCategory(content: string): string {
  * Fetch a single RSS feed
  */
 async function fetchRSSFeed(source: RSSFeedSource): Promise<RSSItem[]> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), HTTP_CONFIG.DEFAULT_TIMEOUT_MS);
+
   try {
     console.log(`Fetching RSS feed from ${source.name}...`);
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000); // 8 second timeout
 
     const response = await fetch(source.feedUrl, {
       method: 'GET',
       headers: {
         'Accept': 'application/rss+xml, application/xml, text/xml, */*',
-        'User-Agent': 'FightingCrimeNC/1.0 (+https://fightingcrimenc.com)',
+        'User-Agent': HTTP_CONFIG.RSS_USER_AGENT,
       },
       signal: controller.signal,
     });
 
-    clearTimeout(timeout);
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       console.error(`Failed to fetch ${source.name}: HTTP ${response.status}`);
@@ -239,6 +246,7 @@ async function fetchRSSFeed(source: RSSFeedSource): Promise<RSSItem[]> {
     return items;
 
   } catch (error) {
+    clearTimeout(timeoutId);
     if (error instanceof Error) {
       console.error(`Error fetching ${source.name}:`, error.message);
     }
@@ -251,17 +259,17 @@ async function fetchRSSFeed(source: RSSFeedSource): Promise<RSSItem[]> {
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  Object.entries(CORS_HEADERS).forEach(([key, value]) => {
+    res.setHeader(key, value);
+  });
 
   // Handle OPTIONS request
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  // Cache for 5 minutes, stale-while-revalidate for 10 minutes
-  res.setHeader('Cache-Control', 's-maxage=300, stale-while-revalidate=600');
+  // Cache configuration
+  res.setHeader('Cache-Control', `s-maxage=${CACHE_CONFIG.RSS_CACHE_SECONDS}, stale-while-revalidate=${CACHE_CONFIG.RSS_SWR_SECONDS}`);
 
   try {
     const enabledFeeds = getEnabledFeeds();
@@ -318,7 +326,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       feedGroups.push({
         source: sourceName,
         location: sourceConfig?.location || '',
-        items: items.slice(0, 20), // Limit to 20 items per source
+        items: items.slice(0, API_CONFIG.MAX_RSS_ITEMS_PER_SOURCE),
       });
     }
 
