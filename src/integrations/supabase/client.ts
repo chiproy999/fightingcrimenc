@@ -5,7 +5,7 @@ import type { Database } from './types';
 // Access env in a way that won't error during type-check when vite types are not loaded
 const env = (import.meta as any)?.env || {};
 const SUPABASE_URL = env.VITE_SUPABASE_URL as string;
-const SUPABASE_PUBLISHABLE_KEY = env.VITE_SUPABASE_ANON_KEY as string;
+const SUPABASE_PUBLISHABLE_KEY = env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
