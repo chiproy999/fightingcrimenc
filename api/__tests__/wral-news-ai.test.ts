@@ -19,8 +19,14 @@ function simpleRewrite(title: string, description: string): { title: string; des
     if (!html) return '';
     
     // Remove script and style blocks (including their content) and replace with space
-    let cleaned = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' ');
-    cleaned = cleaned.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, ' ');
+    // SECURITY NOTE: These regexes are designed for cleaning RSS feed content and handle
+    // common cases. They may not catch all possible malformed or obfuscated tags (e.g.,
+    // tags with newlines/tabs in unusual positions). This is an acceptable trade-off for
+    // local-only content cleaning. For untrusted user input, consider using a proper HTML
+    // parser library. The subsequent tag stripping and entity decoding provide additional
+    // layers of defense.
+    let cleaned = html.replace(/<script\b[^<]*(?:(?!<\/script\s*>)<[^<]*)*<\/script\s*>/gi, ' ');
+    cleaned = cleaned.replace(/<style\b[^<]*(?:(?!<\/style\s*>)<[^<]*)*<\/style\s*>/gi, ' ');
     
     // Strip all HTML tags and replace with space
     cleaned = cleaned.replace(/<[^>]+>/g, ' ');
