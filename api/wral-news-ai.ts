@@ -1,4 +1,5 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import * as he from 'he';
 
 /**
  * WRAL News AI Rewriter
@@ -122,48 +123,144 @@ function extractLocation(title: string, description: string): string {
 }
 
 /**
- * Simple text rewriting (basic version without AI)
- * This will be replaced with Claude API when user adds API key
+ * Clean and normalize text with robust HTML handling
+ * This is the local-only implementation that uses he package for HTML entity decoding
  */
 function simpleRewrite(title: string, description: string): { title: string; description: string } {
-  // For now, just clean up and rephrase slightly
-  // TODO: Replace with Claude API call
-
-  const rewrittenTitle = title
+  // Helper function to clean HTML content
+  function cleanHTML(html: string): string {
+    if (!html) return '';
+    
+    // Remove script and style blocks (including their content) and replace with space
+    // SECURITY NOTE: These regexes are designed for cleaning RSS feed content and handle
+    // common cases. They may not catch all possible malformed or obfuscated tags (e.g.,
+    // tags with newlines/tabs in unusual positions). This is an acceptable trade-off for
+    // local-only content cleaning. For untrusted user input, consider using a proper HTML
+    // parser library. The subsequent tag stripping and entity decoding provide additional
+    // layers of defense.
+    let cleaned = html.replace(/<script\b[^<]*(?:(?!<\/script\s*>)<[^<]*)*<\/script\s*>/gi, ' ');
+    cleaned = cleaned.replace(/<style\b[^<]*(?:(?!<\/style\s*>)<[^<]*)*<\/style\s*>/gi, ' ');
+    
+    // Strip all HTML tags and replace with space
+    cleaned = cleaned.replace(/<[^>]+>/g, ' ');
+    
+    // Decode HTML entities using he package
+    cleaned = he.decode(cleaned);
+    
+    // Collapse whitespace (including various types of spaces)
+    cleaned = cleaned.replace(/\s+/g, ' ');
+    
+    return cleaned.trim();
+  }
+  
+  // Helper function to truncate text at word/sentence boundaries
+  function truncateGracefully(text: string, maxLength: number): string {
+    if (!text || text.length <= maxLength) return text;
+    
+    // First, try to truncate at sentence boundary (look for the last sentence ending within maxLength)
+    const truncated = text.substring(0, maxLength);
+    const sentenceMatch = truncated.match(/[.!?](?=\s)/g);
+    if (sentenceMatch && sentenceMatch.length > 0) {
+      // Find the position of the last sentence ending
+      const lastPuncIndex = truncated.lastIndexOf(sentenceMatch[sentenceMatch.length - 1]);
+      // Only use sentence boundary if it retains at least 20% of max length
+      if (lastPuncIndex > maxLength * 0.2) {
+        return text.substring(0, lastPuncIndex + 1).trim();
+      }
+    }
+    
+    // Otherwise, truncate at word boundary
+    const lastSpace = truncated.lastIndexOf(' ');
+    
+    if (lastSpace > maxLength * 0.8) { // Only if we keep at least 80% of desired length
+      return truncated.substring(0, lastSpace).trim() + '...';
+    }
+    
+    return truncated.trim() + '...';
+  }
+  
+  // Clean and normalize title
+  let rewrittenTitle = cleanHTML(title);
+  
+  // Remove common news site branding patterns
+  rewrittenTitle = rewrittenTitle
     .replace(/^WRAL\.com\s*[-:]\s*/i, '')
     .replace(/\s*\|\s*WRAL\.com$/i, '')
+    .replace(/^By\s+[^-]+-\s*/i, '') // Remove author bylines like "By John Doe - "
+    .replace(/^\w+,\s+\w+\s+\d+,?\s+\d{4}\s*[-:]\s*/i, '') // Remove datelines
     .trim();
-
-  const rewrittenDesc = description
-    .replace(/<[^>]+>/g, '') // Strip HTML
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/\s+/g, ' ')
+  
+  // Truncate title to reasonable length (100 chars)
+  rewrittenTitle = truncateGracefully(rewrittenTitle, 100);
+  
+  // Clean and normalize description
+  let rewrittenDesc = cleanHTML(description);
+  
+  // Remove common author/dateline patterns from description (must be more robust)
+  rewrittenDesc = rewrittenDesc
+    .replace(/^By\s+[^-]+-\s*/i, '')
+    .replace(/^\w+,\s+\w+\s+\d+,?\s+\d{4}\s*[-:—]\s*/i, '') // Include em dash
+    .replace(/^\w+\s+—\s+/i, '') // Remove "CITYNAME — " patterns
     .trim();
-
-  // Add source attribution
+  
+  // Add source attribution if not present
   if (!rewrittenDesc.toLowerCase().includes('according to') &&
       !rewrittenDesc.toLowerCase().includes('wral')) {
-    rewrittenDesc = `According to WRAL News, ${rewrittenDesc.charAt(0).toLowerCase() + rewrittenDesc.slice(1)}`;
+    if (rewrittenDesc.length > 0) {
+      rewrittenDesc = `According to WRAL News, ${rewrittenDesc.charAt(0).toLowerCase() + rewrittenDesc.slice(1)}`;
+    }
   }
-
+  
+  // Truncate description gracefully (500 chars)
+  rewrittenDesc = truncateGracefully(rewrittenDesc, 500);
+  
   return {
     title: rewrittenTitle,
-    description: rewrittenDesc.substring(0, 500) // Limit length
+    description: rewrittenDesc
   };
 }
 
 /**
- * Rewrite article with AI (requires API key)
+ * Rewrite article with AI (requires API key or API URL)
+ * Supports optional REWRITE_API_URL for custom LLM endpoints
  */
 async function rewriteWithAI(
   title: string,
   description: string,
-  apiKey?: string
+  apiKey?: string,
+  apiUrl?: string
 ): Promise<{ title: string; description: string }> {
+
+  // If custom API URL is provided, use it
+  if (apiUrl) {
+    try {
+      console.log('🔌 Using custom rewrite API:', apiUrl);
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title,
+          description
+        })
+      });
+
+      if (!response.ok) {
+        console.error('Custom API error:', response.status);
+        return simpleRewrite(title, description);
+      }
+
+      const data = await response.json();
+      return {
+        title: data.title || title,
+        description: data.description || description
+      };
+    } catch (error) {
+      console.error('Custom API rewriting error:', error);
+      return simpleRewrite(title, description);
+    }
+  }
 
   // Check if Claude API key is provided
   if (!apiKey || apiKey === 'YOUR_ANTHROPIC_API_KEY') {
@@ -341,18 +438,41 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     console.log('🚀 Fetching WRAL crime news...');
 
-    // Get API key from environment (user needs to add this)
+    // Get API configuration from environment
     const claudeApiKey = process.env.ANTHROPIC_API_KEY;
+    const rewriteApiUrl = process.env.REWRITE_API_URL;
 
     // Fetch articles
     const articles = await fetchWRALFeed();
 
     console.log(`📰 Found ${articles.length} crime articles`);
 
-    // Rewrite articles with AI (if API key provided)
-    const rewriteEnabled = claudeApiKey && claudeApiKey !== 'YOUR_ANTHROPIC_API_KEY';
+    // Determine rewrite mode
+    const customApiEnabled = !!rewriteApiUrl;
+    const aiRewriteEnabled = !customApiEnabled && claudeApiKey && claudeApiKey !== 'YOUR_ANTHROPIC_API_KEY';
 
-    if (rewriteEnabled) {
+    if (customApiEnabled) {
+      console.log('🔌 Custom API rewriting enabled');
+
+      for (const article of articles) {
+        try {
+          const rewritten = await rewriteWithAI(
+            article.title,
+            article.description,
+            undefined,
+            rewriteApiUrl
+          );
+
+          article.originalTitle = article.title;
+          article.title = rewritten.title;
+          article.description = rewritten.description;
+          article.rewritten = true;
+
+        } catch (error) {
+          console.error('Rewriting failed for article:', article.id, error);
+        }
+      }
+    } else if (aiRewriteEnabled) {
       console.log('🤖 AI rewriting enabled');
 
       for (const article of articles) {
@@ -373,7 +493,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       }
     } else {
-      console.log('⚠️  AI rewriting disabled (no API key)');
+      console.log('⚠️  AI rewriting disabled - using local-only cleaning');
 
       // Use simple rewrite for all
       for (const article of articles) {
@@ -391,16 +511,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Return top 20
     const topArticles = articles.slice(0, 20);
 
+    let message = 'Using local-only cleaning (add REWRITE_API_URL or ANTHROPIC_API_KEY for AI)';
+    if (customApiEnabled) {
+      message = 'Articles rewritten with custom API';
+    } else if (aiRewriteEnabled) {
+      message = 'Articles rewritten with AI';
+    }
+
     return res.status(200).json({
       success: true,
       articles: topArticles,
       totalArticles: topArticles.length,
-      aiRewriting: rewriteEnabled,
+      aiRewriting: customApiEnabled || aiRewriteEnabled,
       source: 'WRAL News',
       timestamp: new Date().toISOString(),
-      message: rewriteEnabled
-        ? 'Articles rewritten with AI'
-        : 'Using basic rewriting (add ANTHROPIC_API_KEY for AI)'
+      message
     });
 
   } catch (error) {
