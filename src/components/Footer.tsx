@@ -116,23 +116,28 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center">
-          <p className="text-muted-foreground">
-            © 2025 Fighting Crime NC. All rights reserved. | 
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="ml-1 p-0 h-auto text-police-blue hover:text-primary"
-              onClick={() => navigate('/policy')}
-            >
-              Policy
-            </Button> | 
-            <Button variant="ghost" size="sm" className="ml-1 p-0 h-auto text-police-blue hover:text-primary">
-              Privacy Policy
-            </Button> | 
-            <Button variant="ghost" size="sm" className="ml-1 p-0 h-auto text-police-blue hover:text-primary">
-              Terms of Service
-            </Button>
-          </p>
+          <div className="text-muted-foreground flex flex-wrap items-center justify-center gap-3">
+            <span>\u00a9 2025 Fighting Crime NC. All rights reserved.</span>
+            <div className="flex items-center gap-2">
+              <span className="text-muted-foreground">|</span>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="p-0 h-auto text-police-blue hover:text-primary"
+                onClick={() => navigate('/policy')}
+              >
+                Policy
+              </Button>
+              <span className="text-muted-foreground">|</span>
+              <Button variant="ghost" size="sm" className="p-0 h-auto text-police-blue hover:text-primary" onClick={() => navigate('/privacy')}>
+                Privacy Policy
+              </Button>
+              <span className="text-muted-foreground">|</span>
+              <Button variant="ghost" size="sm" className="p-0 h-auto text-police-blue hover:text-primary" onClick={() => navigate('/terms')}>
+                Terms of Service
+              </Button>
+            </div>
+          </div>
           <p className="text-sm text-muted-foreground mt-2">
             Website: fightingcrimenc.com | Working together for safer communities
           </p>
