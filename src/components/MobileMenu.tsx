@@ -14,6 +14,7 @@ const MobileMenu = () => {
     { name: "Crime News", path: "/crime-news", icon: "📰" },
     { name: "Who's Wanted", path: "/wanted", icon: "🚨" },
     { name: "Missing Persons", path: "/missing-persons", icon: "👤" },
+    { name: "County Tip Directory", path: "/county-resources", icon: "🗺️" },
     { name: "Submit Tips", path: "/submit-tips", icon: "💡" },
     { name: "Contact", path: "/contact", icon: "📞" }
   ];
@@ -75,36 +76,38 @@ const MobileMenu = () => {
           <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
             Quick Actions
           </h3>
-          
-          <Button 
-            variant="destructive" 
+
+          <Button
+            asChild
+            variant="destructive"
             className="w-full h-12 text-sm font-semibold"
-            onClick={() => setIsOpen(false)}
           >
-            <AlertTriangle className="mr-2 h-4 w-4" />
-            Report Emergency
+            <a href="tel:911" aria-label="Call 911 from mobile menu">
+              <AlertTriangle className="mr-2 h-4 w-4" />
+              Call 911
+            </a>
           </Button>
-          
-          <Button 
-            variant="outline" 
-            className="w-full h-12 text-sm"
-            onClick={() => setIsOpen(false)}
+
+          <Button
+            variant="police"
+            className="w-full h-12 text-sm font-semibold"
+            onClick={() => {
+              setIsOpen(false);
+              navigate('/county-resources');
+            }}
           >
             <Phone className="mr-2 h-4 w-4" />
-            Anonymous Tip Line
+            County Tip Directory
           </Button>
         </div>
 
         {/* Contact Info */}
         <div className="mt-6 pt-6 border-t border-border/50 text-center">
           <p className="text-xs text-muted-foreground">
-            Crime Stoppers
+            Need non-emergency help?
           </p>
           <p className="text-sm font-semibold text-primary">
-            Wake: (919) 996-1193
-          </p>
-          <p className="text-sm font-semibold text-primary">
-            Mecklenburg: (704) 334-1600
+            Use the County Tip Directory for verified numbers.
           </p>
         </div>
       </SheetContent>

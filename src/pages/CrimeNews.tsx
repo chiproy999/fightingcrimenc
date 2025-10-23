@@ -53,18 +53,18 @@ const CrimeNews = () => {
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               <div className="bg-card border border-police-blue/20 rounded-lg p-6 text-center">
                 <Shield className="h-8 w-8 text-police-blue mx-auto mb-3" />
-                <h3 className="text-2xl font-bold text-foreground">24/7</h3>
-                <p className="text-muted-foreground">Breaking News Coverage</p>
+                <h3 className="text-2xl font-bold text-foreground">Official Sources</h3>
+                <p className="text-muted-foreground">Verified law enforcement releases</p>
               </div>
               <div className="bg-card border border-evidence-green/20 rounded-lg p-6 text-center">
                 <Clock className="h-8 w-8 text-evidence-green mx-auto mb-3" />
-                <h3 className="text-2xl font-bold text-foreground">Real-Time</h3>
-                <p className="text-muted-foreground">Crime Updates</p>
+                <h3 className="text-2xl font-bold text-foreground">Updated Daily</h3>
+                <p className="text-muted-foreground">Fresh reports from across NC</p>
               </div>
               <div className="bg-card border border-emergency-red/20 rounded-lg p-6 text-center">
                 <AlertTriangle className="h-8 w-8 text-emergency-red mx-auto mb-3" />
-                <h3 className="text-2xl font-bold text-foreground">100</h3>
-                <p className="text-muted-foreground">NC Counties Covered</p>
+                <h3 className="text-2xl font-bold text-foreground">Statewide Coverage</h3>
+                <p className="text-muted-foreground">Major cities and county agencies</p>
               </div>
             </div>
           </section>

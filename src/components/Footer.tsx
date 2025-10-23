@@ -23,37 +23,45 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold text-foreground mb-4">Quick Links</h4>
             <div className="space-y-2">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/crime-news')}
               >
                 Crime News
               </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/wanted')}
               >
                 Who's Wanted
               </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/missing-persons')}
               >
                 Missing Persons
               </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/county-resources')}
+              >
+                County Tip Directory
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/submit-tips')}
               >
-                Submit Tips
+                Tip Guidance
               </Button>
             </div>
           </div>
@@ -61,33 +69,33 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold text-foreground mb-4">Resources</h4>
             <div className="space-y-2">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/contact')}
               >
                 Contact Us
               </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/county-resources')}
+              >
+                Non-Emergency Numbers
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/submit-tips')}
               >
-                Crime Prevention
+                Tip Reporting Guidance
               </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
-                onClick={() => navigate('/submit-tips')}
-              >
-                Anonymous Tips
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/')}
               >
@@ -104,12 +112,15 @@ const Footer = () => {
                 <p className="text-muted-foreground text-sm">Immediate danger or crimes in progress</p>
               </div>
               <div>
-                <p className="text-police-blue font-semibold">Wake County Crime Stoppers</p>
-                <p className="text-muted-foreground text-sm">(919) 996-1193</p>
-              </div>
-              <div>
-                <p className="text-foreground font-semibold">Mecklenburg Crime Stoppers</p>
-                <p className="text-muted-foreground text-sm">(704) 334-1600</p>
+                <p className="text-police-blue font-semibold">Need a non-emergency number?</p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="p-0 h-auto text-police-blue hover:text-primary"
+                  onClick={() => navigate('/county-resources')}
+                >
+                  Open the County Tip Directory
+                </Button>
               </div>
             </div>
           </div>

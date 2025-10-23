@@ -11,7 +11,7 @@ const FAQSection = () => {
   const faqs = [
     {
       question: "How do I submit an anonymous crime tip in North Carolina?",
-      answer: "You can submit anonymous crime tips through our secure online form at fightingcrimenc.com/submit-tips. Your identity will never be tracked or shared. Alternatively, call your local Crime Stoppers hotline: Wake County (919) 996-1193 or Mecklenburg County (704) 334-1600. For emergencies, always call 911."
+      answer: "Use the official County Tip Directory at fightingcrimenc.com/county-resources to reach the correct law enforcement portal for your area. Fighting Crime NC does not collect or store tips—everything goes directly to verified government agencies. For emergencies or crimes in progress, always call 911."
     },
     {
       question: "What counties does Fighting Crime NC cover?",
@@ -27,7 +27,7 @@ const FAQSection = () => {
     },
     {
       question: "How can I report a sighting of a wanted person or missing person?",
-      answer: "If you see a wanted person or missing individual, DO NOT approach them. For wanted persons who may be dangerous, call 911 immediately. For non-emergency tips, use our anonymous tip submission form or contact the specific law enforcement agency listed on the alert. For missing persons, call the agency handling the case or 911 if it's urgent."
+      answer: "If you see a wanted person or missing individual, DO NOT approach them. Call 911 immediately if there is any threat to safety. For non-emergency tips, use the County Tip Directory to reach the law enforcement agency handling the case so your information goes straight to investigators."
     },
     {
       question: "Is Fighting Crime NC affiliated with law enforcement?",
@@ -39,7 +39,7 @@ const FAQSection = () => {
     },
     {
       question: "What makes Fighting Crime NC different from other crime websites?",
-      answer: "Fighting Crime NC offers statewide coverage of all 100 NC counties, while competitors typically cover only 3-4 counties. We feature modern, mobile-optimized design, real-time RSS aggregation from 15+ official sources, comprehensive structured data for search engines, and anonymous tip submission. Our platform is faster, more comprehensive, and easier to use than dated regional crime sites."
+      answer: "Fighting Crime NC offers statewide coverage of all 100 NC counties, while competitors typically cover only a few counties. We feature a modern, mobile-optimized design, real-time aggregation from official sources, structured data for search engines, and a centralized directory of verified law enforcement contact information. Our platform is focused on accuracy, transparency, and getting information to the proper authorities."
     }
   ];
 

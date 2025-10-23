@@ -14,10 +14,10 @@ const MissingPersons = () => {
   const navigate = useNavigate();
 
   const handleReportSighting = (personName: string) => {
-    toast.success("Redirecting to tip submission...", {
-      description: `Report sighting of ${personName}`
+    toast.info("Opening official tip resources...", {
+      description: `Use the County Tip Directory to report details about ${personName}.`
     });
-    setTimeout(() => navigate('/submit-tips'), 1000);
+    setTimeout(() => navigate('/county-resources'), 800);
   };
 
   const handleShareAlert = (personName: string) => {
@@ -95,8 +95,8 @@ const MissingPersons = () => {
               <Alert className="max-w-2xl mx-auto border-police-blue/50">
                 <Heart className="h-4 w-4" />
                 <AlertDescription className="text-police-blue font-medium">
-                  If you have any information about a missing person, please contact local law enforcement 
-                  or call the National Missing Persons Helpline immediately.
+                  If you have any information about a missing person, contact local law enforcement through the County Tip Directory
+                  or dial 911 immediately.
                 </AlertDescription>
               </Alert>
             </div>
@@ -110,13 +110,13 @@ const MissingPersons = () => {
               </div>
               <div className="bg-card border border-evidence-green/20 rounded-lg p-6 text-center">
                 <Clock className="h-8 w-8 text-evidence-green mx-auto mb-3" />
-                <h3 className="text-2xl font-bold text-foreground">24/7</h3>
-                <p className="text-muted-foreground">Search Coordination</p>
+                <h3 className="text-2xl font-bold text-foreground">Rapid Alerts</h3>
+                <p className="text-muted-foreground">Real-time law enforcement updates</p>
               </div>
               <div className="bg-card border border-warning-yellow/20 rounded-lg p-6 text-center">
                 <Phone className="h-8 w-8 text-warning-yellow mx-auto mb-3" />
-                <h3 className="text-2xl font-bold text-foreground">Immediate</h3>
-                <p className="text-muted-foreground">Alert System</p>
+                <h3 className="text-2xl font-bold text-foreground">Official Contacts</h3>
+                <p className="text-muted-foreground">County tip directory guidance</p>
               </div>
             </div>
           </section>
@@ -136,10 +136,10 @@ const MissingPersons = () => {
                   <div className="flex gap-3 justify-center">
                     <Button
                       className="bg-gradient-police text-white hover:shadow-evidence"
-                      onClick={() => navigate('/submit-tips')}
+                      onClick={() => navigate('/county-resources')}
                     >
-                      <Phone className="h-4 w-4 mr-2" />
-                      Report Information
+                      <MapPin className="h-4 w-4 mr-2" />
+                      Find Tip Resources
                     </Button>
                     <Button
                       variant="outline"
@@ -225,12 +225,24 @@ const MissingPersons = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
+                    asChild
+                    variant="emergency"
                     size="lg"
-                    className="bg-gradient-police text-white hover:shadow-evidence"
-                    onClick={() => navigate('/submit-tips')}
+                    className="sm:w-auto"
                   >
-                    <Phone className="h-5 w-5 mr-2" />
-                    Report Information
+                    <a href="tel:911" aria-label="Call 911 about a missing person">
+                      <Phone className="h-5 w-5 mr-2" />
+                      Call 911
+                    </a>
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="police"
+                    className="sm:w-auto"
+                    onClick={() => navigate('/county-resources')}
+                  >
+                    <MapPin className="h-5 w-5 mr-2" />
+                    County Tip Directory
                   </Button>
                   <Button
                     size="lg"
@@ -238,7 +250,7 @@ const MissingPersons = () => {
                     className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white"
                     onClick={() => handleShareAlert('missing person')}
                   >
-                    <Heart className="h-5 w-5 mr-2" />
+                    <Share2 className="h-5 w-5 mr-2" />
                     Share Alert
                   </Button>
                 </div>

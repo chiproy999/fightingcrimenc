@@ -83,41 +83,90 @@ export const fetchRSSFeed = async (config: RSSFeedConfig): Promise<RSSItem[]> =>
  * Fetch crime news via Vercel serverless function
  * Uses WRAL RSS feed with AI rewriting for unique content
  */
-export const fetchMultipleRSSFeeds = async (configs?: RSSFeedConfig[]): Promise<RSSItem[]> => {
-  try {
-    // Call our WRAL News AI endpoint
-    const response = await fetch('/api/wral-news-ai', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-      },
-    });
+export const fetchMultipleRSSFeeds = async (_configs?: RSSFeedConfig[]): Promise<RSSItem[]> => {
+  const sortByDateDesc = (items: RSSItem[]) =>
+    items.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime());
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  const tryFetchScrapedFeeds = async (): Promise<RSSItem[] | null> => {
+    try {
+      const response = await fetch('/api/rss', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data?.success || !Array.isArray(data.feeds)) {
+        return null;
+      }
+
+      const flattened: RSSItem[] = data.feeds.flatMap((feed: { source: string; items: RSSItem[] }) =>
+        (feed.items || []).map((item, index) => ({
+          ...item,
+          id: item.id || `${feed.source}-${index}-${Date.now()}`,
+          source: item.source || feed.source,
+        }))
+      );
+
+      if (!flattened.length) {
+        return null;
+      }
+
+      return sortByDateDesc(flattened);
+    } catch (scrapeError) {
+      console.error('Error fetching scraped NC crime news:', scrapeError);
+      return null;
     }
+  };
 
-    const data = await response.json();
+  const tryFetchWralFeed = async (): Promise<RSSItem[] | null> => {
+    try {
+      const response = await fetch('/api/wral-news-ai', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+        },
+      });
 
-    if (!data.success || !data.articles) {
-      throw new Error('Invalid response from news API');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (!data.success || !data.articles) {
+        return null;
+      }
+
+      return sortByDateDesc(data.articles as RSSItem[]);
+    } catch (wralError) {
+      console.error('Error fetching WRAL crime news feed:', wralError);
+      return null;
     }
+  };
 
-    // Return articles directly (already formatted)
-    return data.articles.sort((a: RSSItem, b: RSSItem) =>
-      new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()
-    );
-  } catch (error) {
-    console.error('Error fetching crime news from API:', error);
-    
-    // In development, provide mock data as fallback
-    if (import.meta.env.DEV) {
-      console.info('Using mock data for development');
-      return getMockCrimeNews();
-    }
-    
-    throw error;
+  const scrapedFeeds = await tryFetchScrapedFeeds();
+  if (scrapedFeeds && scrapedFeeds.length > 0) {
+    return scrapedFeeds;
   }
+
+  const wralFeeds = await tryFetchWralFeed();
+  if (wralFeeds && wralFeeds.length > 0) {
+    return wralFeeds;
+  }
+
+  if (import.meta.env.DEV) {
+    console.info('Using mock data for development');
+    return getMockCrimeNews();
+  }
+
+  throw new Error('No crime news feeds are currently available.');
 };
 
 /**

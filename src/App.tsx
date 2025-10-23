@@ -17,6 +17,7 @@ const MissingPersons = lazy(() => import("./pages/MissingPersons"));
 const SubmitTips = lazy(() => import("./pages/SubmitTips"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Policy = lazy(() => import("./pages/Policy"));
+const CountyResources = lazy(() => import("./pages/CountyResources"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback component
@@ -66,6 +67,7 @@ const App = () => (
                   <Route path="/wanted" element={<Wanted />} />
                   <Route path="/missing-persons" element={<MissingPersons />} />
                   <Route path="/submit-tips" element={<SubmitTips />} />
+                  <Route path="/county-resources" element={<CountyResources />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/policy" element={<Policy />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
