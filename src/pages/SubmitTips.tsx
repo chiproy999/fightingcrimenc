@@ -1,261 +1,164 @@
-import { useState } from 'react';
 import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Shield, Phone, Lock, AlertCircle, CheckCircle, Eye } from "lucide-react";
+import { Shield, Phone, Map, FileText } from "lucide-react";
+import { countyResourcesSorted } from "@/data/countyResources";
 
 const SubmitTips = () => {
-  const [formData, setFormData] = useState({
-    tipType: '',
-    location: '',
-    description: '',
-    contact: ''
-  });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    setIsSubmitted(true);
-    setFormData({ tipType: '', location: '', description: '', contact: '' });
-  };
+  const quickContacts = countyResourcesSorted.slice(0, 5);
 
   return (
     <>
-      <SEOHead 
-        title="Submit Anonymous Crime Tips - Fighting Crime NC"
-        description="Submit anonymous crime tips to help law enforcement solve cases and keep North Carolina communities safe. Your tip could make the difference in solving a crime."
-        keywords="NC crime tips, anonymous tips NC, report crime NC, crime stoppers, submit tip North Carolina, help solve crime"
+      <SEOHead
+        title="Report Crime Tips Safely - Fighting Crime NC"
+        description="Learn how to report crime information directly to North Carolina law enforcement. Find official non-emergency numbers, online tip portals, and emergency guidance."
+        keywords="report crime North Carolina, NC police tip line, non emergency number NC, county sheriff tips, law enforcement contact NC"
         canonicalUrl="/submit-tips"
         schemaData={{
           "@context": "https://schema.org",
           "@type": "ContactPage",
-          "name": "Submit Anonymous Crime Tips",
-          "description": "Anonymous crime tip submission for North Carolina",
+          "name": "Report Crime Tips Safely",
+          "description": "Guidance for reporting crime tips directly to North Carolina law enforcement",
           "provider": {
             "@type": "Organization",
             "name": "Fighting Crime NC"
           }
         }}
       />
-      
+
       <div className="min-h-screen bg-background">
         <Header />
-        
+
         <main className="container mx-auto container-mobile">
           <Breadcrumbs />
-          
-          {/* Hero Section */}
+
           <section className="py-8">
-            <div className="text-center mb-8">
+            <div className="text-center mb-10">
               <div className="flex justify-center mb-4">
                 <div className="bg-gradient-police p-4 rounded-full shadow-evidence">
                   <Shield className="h-8 w-8 text-white" />
                 </div>
               </div>
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Submit Anonymous Crime Tips
+                Report Crime Tips Safely
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-                Help law enforcement solve crimes and make North Carolina safer. 
-                Your anonymous tip could be the key to solving a case and bringing justice to victims.
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Fighting Crime NC does <strong className="text-foreground">not collect or store tips</strong>.
+                Use the official non-emergency numbers and secure portals below to contact the correct authorities directly.
               </p>
-              
-              <div className="flex flex-wrap justify-center gap-3 mb-6">
-                <Badge variant="outline" className="border-evidence-green/50 text-evidence-green">
-                  <Lock className="mr-1 h-3 w-3" />
-                  100% Anonymous
+              <div className="flex flex-wrap justify-center gap-3 mt-6">
+                <Badge variant="outline" className="border-emergency-red/50 text-emergency-red">
+                  Emergency calls must go to 911
                 </Badge>
                 <Badge variant="outline" className="border-police-blue/50 text-police-blue">
-                  <Shield className="mr-1 h-3 w-3" />
-                  Secure Submission
-                </Badge>
-                <Badge variant="outline" className="border-warning-yellow/50 text-warning-yellow">
-                  <Eye className="mr-1 h-3 w-3" />
-                  24/7 Monitoring
+                  Tips route to law enforcement only
                 </Badge>
               </div>
-            </div>
-          </section>
-
-          <div className="grid lg:grid-cols-3 gap-8 pb-12">
-            {/* Tip Submission Form */}
-            <div className="lg:col-span-2">
-              <Card className="border-police-blue/20">
-                <CardHeader>
-                  <CardTitle className="text-xl text-foreground">Submit Your Tip</CardTitle>
-                  <p className="text-muted-foreground">
-                    All information is submitted anonymously and securely to law enforcement.
-                  </p>
-                </CardHeader>
-                <CardContent>
-                  {isSubmitted ? (
-                    <Alert className="border-evidence-green/50">
-                      <CheckCircle className="h-4 w-4" />
-                      <AlertDescription className="text-evidence-green">
-                        <strong>Tip submitted successfully!</strong> Your anonymous tip has been forwarded to the appropriate law enforcement agencies. Thank you for helping keep our communities safe.
-                      </AlertDescription>
-                    </Alert>
-                  ) : (
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">
-                          Type of Crime/Incident
-                        </label>
-                        <select 
-                          id="tip-type"
-                          name="tipType"
-                          autoComplete="off"
-                          className="w-full p-3 border border-input rounded-md bg-background text-foreground"
-                          value={formData.tipType}
-                          onChange={(e) => setFormData({...formData, tipType: e.target.value})}
-                          required
-                        >
-                          <option value="">Select type...</option>
-                          <option value="drug-activity">Drug Activity</option>
-                          <option value="theft">Theft/Burglary</option>
-                          <option value="assault">Assault/Violence</option>
-                          <option value="fraud">Fraud/Scam</option>
-                          <option value="vandalism">Vandalism</option>
-                          <option value="wanted-person">Wanted Person</option>
-                          <option value="missing-person">Missing Person</option>
-                          <option value="other">Other</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">
-                          Location (City, County, or General Area)
-                        </label>
-                        <Input
-                          type="text"
-                          id="tip-location"
-                          name="location"
-                          autoComplete="address-level2"
-                          placeholder="e.g., Charlotte, Wake County, etc."
-                          value={formData.location}
-                          onChange={(e) => setFormData({...formData, location: e.target.value})}
-                          className="bg-background border-police-blue/30 focus:border-police-blue"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">
-                          Detailed Description
-                        </label>
-                        <Textarea
-                          id="tip-description"
-                          name="description"
-                          placeholder="Provide as much detail as possible about what you witnessed or know. Include dates, times, descriptions of people, vehicles, etc."
-                          value={formData.description}
-                          onChange={(e) => setFormData({...formData, description: e.target.value})}
-                          className="bg-background border-police-blue/30 focus:border-police-blue min-h-32"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-sm font-medium text-foreground mb-2 block">
-                          Contact Information (Optional)
-                        </label>
-                        <Input
-                          type="text"
-                          id="tip-contact"
-                          name="contact"
-                          autoComplete="tel"
-                          placeholder="Phone or email (only if you want to be contacted)"
-                          value={formData.contact}
-                          onChange={(e) => setFormData({...formData, contact: e.target.value})}
-                          className="bg-background border-police-blue/30 focus:border-police-blue"
-                        />
-                        <p className="text-xs text-muted-foreground mt-1">
-                          Leave blank to remain completely anonymous
-                        </p>
-                      </div>
-
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-gradient-police text-white hover:shadow-evidence"
-                        size="lg"
-                      >
-                        Submit Anonymous Tip
-                      </Button>
-                    </form>
-                  )}
-                </CardContent>
-              </Card>
+              <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+                <Button asChild variant="emergency" size="lg" className="sm:w-auto">
+                  <a href="tel:911" aria-label="Call 911">Call 911</a>
+                </Button>
+                <Button
+                  asChild
+                  variant="police"
+                  size="lg"
+                  className="sm:w-auto"
+                >
+                  <a href="/county-resources">Open County Tip Directory</a>
+                </Button>
+              </div>
             </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
-              {/* Emergency Contact */}
+            <div className="grid gap-6 md:grid-cols-3">
               <Card className="border-emergency-red/20">
                 <CardHeader>
                   <CardTitle className="text-lg text-foreground flex items-center gap-2">
-                    <AlertCircle className="h-5 w-5 text-emergency-red" />
-                    Emergency?
+                    <Phone className="h-5 w-5 text-emergency-red" />
+                    Emergency Response
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    If this is an emergency or crime in progress, call 911 immediately.
-                  </p>
-                  <Button className="w-full bg-emergency-red text-white hover:bg-emergency-red/90">
-                    <Phone className="h-4 w-4 mr-2" />
-                    Call 911
-                  </Button>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>Dial <strong className="text-foreground">911</strong> for crimes in progress, threats to life, or urgent medical needs.</p>
+                  <p>Provide exact locations, suspect descriptions, and any immediate risks while you remain on the line.</p>
                 </CardContent>
               </Card>
 
-              {/* Crime Stoppers */}
               <Card className="border-police-blue/20">
                 <CardHeader>
-                  <CardTitle className="text-lg text-foreground">Crime Stoppers Hotline</CardTitle>
+                  <CardTitle className="text-lg text-foreground flex items-center gap-2">
+                    <Map className="h-5 w-5 text-police-blue" />
+                    County Tip Resources
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Prefer to call? Use the Crime Stoppers hotline for anonymous tips.
-                  </p>
-                  <div className="space-y-2">
-                    <Button variant="outline" className="w-full border-police-blue text-police-blue hover:bg-police-blue hover:text-white">
-                      <Phone className="h-4 w-4 mr-2" />
-                      Wake: (919) 996-1193
-                    </Button>
-                    <Button variant="outline" className="w-full border-police-blue text-police-blue hover:bg-police-blue hover:text-white">
-                      <Phone className="h-4 w-4 mr-2" />
-                      Mecklenburg: (704) 334-1600
-                    </Button>
-                  </div>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>Use our <strong className="text-foreground">County Tip Directory</strong> to find verified online forms and non-emergency numbers for North Carolina's largest counties.</p>
+                  <p>Every link points to an official municipal or county agency portal.</p>
                 </CardContent>
               </Card>
 
-              {/* Privacy Notice */}
               <Card className="border-evidence-green/20">
                 <CardHeader>
                   <CardTitle className="text-lg text-foreground flex items-center gap-2">
-                    <Lock className="h-5 w-5 text-evidence-green" />
-                    Privacy Protected
+                    <FileText className="h-5 w-5 text-evidence-green" />
+                    Prepare Your Information
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <ul className="text-sm text-muted-foreground space-y-2">
-                    <li>• Your identity is never tracked</li>
-                    <li>• No personal information stored</li>
-                    <li>• Secure encrypted transmission</li>
-                    <li>• Direct to law enforcement</li>
-                  </ul>
+                <CardContent className="space-y-3 text-sm text-muted-foreground">
+                  <p>When you call or submit a form, share details such as dates, times, locations, vehicle descriptions, and any known associates.</p>
+                  <p>Include your contact information only if you are willing to speak with investigators.</p>
                 </CardContent>
               </Card>
             </div>
-          </div>
+
+            <div className="mt-12">
+              <h2 className="text-2xl font-semibold text-foreground mb-4">Quick Access Non-Emergency Contacts</h2>
+              <p className="text-muted-foreground mb-6 max-w-2xl">
+                These are the five most-populated counties in North Carolina. Call the listed number or use the linked portal to send tips directly to the responsible agency.
+              </p>
+              <div className="grid gap-4 md:grid-cols-2">
+                {quickContacts.map((county) => (
+                  <Card key={county.name} className="border-police-blue/20">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg text-foreground">
+                        {county.name}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3">
+                      <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+                        <span className="font-semibold text-foreground">Non-Emergency:</span>
+                        <a
+                          className="text-police-blue hover:underline"
+                          href={`tel:${county.nonEmergency.phone.replace(/[^0-9]/g, "")}`}
+                        >
+                          {county.nonEmergency.phone} — {county.nonEmergency.agency}
+                        </a>
+                      </div>
+                      <Button
+                        asChild
+                        variant="outline"
+                        className="w-full border-police-blue/40 hover:bg-police-blue/10"
+                      >
+                        <a href={county.tipWebsite.url} target="_blank" rel="noopener noreferrer">
+                          Visit Tip Portal
+                        </a>
+                      </Button>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+
+            <Alert className="mt-12 border-warning-yellow/40">
+              <AlertDescription className="text-sm text-muted-foreground">
+                Fighting Crime NC is an information resource. All crime reports and investigative follow-ups are handled solely by the official law enforcement agencies listed above.
+              </AlertDescription>
+            </Alert>
+          </section>
         </main>
 
         <Footer />

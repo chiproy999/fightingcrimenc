@@ -14,14 +14,10 @@ const Wanted = () => {
   const navigate = useNavigate();
 
   const handleReportClick = (personName: string) => {
-    toast.success("Redirecting to tip submission...", {
-      description: `Report information about ${personName}`
+    toast.info("Opening official tip resources...", {
+      description: `Use the County Tip Directory to report information about ${personName}.`
     });
-    setTimeout(() => navigate('/submit-tips'), 1000);
-  };
-
-  const handleCallCrimeStoppers = (number: string) => {
-    window.location.href = `tel:${number}`;
+    setTimeout(() => navigate('/county-resources'), 800);
   };
 
   // Real data will come from database/API
@@ -101,9 +97,9 @@ const Wanted = () => {
                 <p className="text-muted-foreground">Database Updates</p>
               </div>
               <div className="bg-card border border-police-blue/20 rounded-lg p-6 text-center">
-                <Phone className="h-8 w-8 text-police-blue mx-auto mb-3" />
-                <h3 className="text-2xl font-bold text-foreground">24/7</h3>
-                <p className="text-muted-foreground">Tip Hotline</p>
+                <MapPin className="h-8 w-8 text-police-blue mx-auto mb-3" />
+                <h3 className="text-2xl font-bold text-foreground">Official Contacts</h3>
+                <p className="text-muted-foreground">County Tip Directory</p>
               </div>
             </div>
           </section>
@@ -122,10 +118,10 @@ const Wanted = () => {
                   </p>
                   <Button
                     className="bg-gradient-police text-white hover:shadow-evidence"
-                    onClick={() => navigate('/submit-tips')}
+                    onClick={() => navigate('/county-resources')}
                   >
-                    <Phone className="h-4 w-4 mr-2" />
-                    Report Information
+                    <MapPin className="h-4 w-4 mr-2" />
+                    Find Tip Resources
                   </Button>
                 </CardContent>
               </Card>
@@ -193,24 +189,28 @@ const Wanted = () => {
                   Have Information?
                 </h2>
                 <p className="text-muted-foreground mb-6">
-                  Your tip could help solve a case and make our communities safer.
+                  Contact law enforcement directly using emergency services or verified county resources.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
+                    asChild
+                    variant="emergency"
                     size="lg"
-                    className="bg-gradient-police text-white hover:shadow-evidence"
-                    onClick={() => handleCallCrimeStoppers('911')}
+                    className="sm:w-auto"
                   >
-                    <Phone className="h-5 w-5 mr-2" />
-                    Call Crime Stoppers
+                    <a href="tel:911" aria-label="Call 911">
+                      <Phone className="h-5 w-5 mr-2" />
+                      Call 911
+                    </a>
                   </Button>
                   <Button
                     size="lg"
-                    variant="outline"
-                    className="border-police-blue text-police-blue hover:bg-police-blue hover:text-white"
-                    onClick={() => navigate('/submit-tips')}
+                    variant="police"
+                    className="sm:w-auto"
+                    onClick={() => navigate('/county-resources')}
                   >
-                    Submit Anonymous Tip
+                    <MapPin className="h-5 w-5 mr-2" />
+                    County Tip Directory
                   </Button>
                 </div>
               </div>

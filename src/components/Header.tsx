@@ -54,15 +54,22 @@ const Header = () => {
             >
               Who's Wanted
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/missing-persons')}
             >
               Missing Persons
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
+              className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/county-resources')}
+            >
+              County Tip Directory
+            </Button>
+            <Button
+              variant="ghost"
               className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/submit-tips')}
             >
@@ -79,10 +86,10 @@ const Header = () => {
 
           {/* Auth and Emergency Section */}
           <div className="flex items-center gap-3">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="police"
               size="sm"
-              className="hidden md:flex border-police-blue/50 text-police-blue hover:bg-police-blue hover:text-white"
+              className="hidden md:flex px-4"
               onClick={() => navigate('/auth')}
             >
               Sign In
