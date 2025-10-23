@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { fetchMultipleRSSFeeds } from '@/lib/rssParser';
+import { fetchMultipleRSSFeeds, fetchSingleRSSFeed } from '@/lib/rssParser';
 
 export interface RSSItem {
   id: string;
@@ -12,7 +12,7 @@ export interface RSSItem {
   source: string;
 }
 
-export const useRSSFeed = () => {
+export const useRSSFeed = (feedUrl?: string) => {
   const [rssItems, setRssItems] = useState<RSSItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,14 +22,24 @@ export const useRSSFeed = () => {
       setLoading(true);
       setError(null);
 
-      // Fetch RSS feeds via Vercel serverless function (uses RSSHub)
-      const feedData = await fetchMultipleRSSFeeds();
-
-      if (feedData && feedData.length > 0) {
-        setRssItems(feedData.slice(0, 20)); // Show 20 most recent items
+      // If a specific feedUrl is provided, fetch from that feed
+      if (feedUrl) {
+        const feedData = await fetchSingleRSSFeed(feedUrl);
+        if (feedData && feedData.length > 0) {
+          setRssItems(feedData.slice(0, 20)); // Show 20 most recent items
+        } else {
+          setError('Crime news feed is being updated. Check back soon for the latest NC crime alerts and updates.');
+          setRssItems([]);
+        }
       } else {
-        setError('Crime news feed is being updated. Check back soon for the latest NC crime alerts and updates.');
-        setRssItems([]);
+        // Otherwise, fetch from the aggregator API
+        const feedData = await fetchMultipleRSSFeeds();
+        if (feedData && feedData.length > 0) {
+          setRssItems(feedData.slice(0, 20)); // Show 20 most recent items
+        } else {
+          setError('Crime news feed is being updated. Check back soon for the latest NC crime alerts and updates.');
+          setRssItems([]);
+        }
       }
     } catch (err) {
       setError('Failed to load crime news feed. Please try again later.');
@@ -38,7 +48,7 @@ export const useRSSFeed = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [feedUrl]);
 
   useEffect(() => {
     fetchRSSData();

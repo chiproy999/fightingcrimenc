@@ -5,8 +5,13 @@ import RSSCard from "./RSSCard";
 import LoadingState from "./LoadingState";
 import ErrorState from "./ErrorState";
 
-const RSSFeed = () => {
-  const { rssItems, loading, error, getCategoryColor, formatTimeAgo, refetch } = useRSSFeed();
+interface RSSFeedProps {
+  feedUrl?: string;
+  showViewAllButton?: boolean;
+}
+
+const RSSFeed = ({ feedUrl, showViewAllButton = true }: RSSFeedProps) => {
+  const { rssItems, loading, error, getCategoryColor, formatTimeAgo, refetch } = useRSSFeed(feedUrl);
   const navigate = useNavigate();
 
   if (loading) {
@@ -39,17 +44,19 @@ const RSSFeed = () => {
           ))}
         </div>
 
-        <div className="text-center">
-          <Button 
-            variant="default" 
-            size="lg" 
-            className="bg-gradient-police hover:opacity-90 transition-opacity"
-            onClick={() => navigate('/crime-news')}
-            aria-label="View all North Carolina crime news"
-          >
-            View All NC Crime News
-          </Button>
-        </div>
+        {showViewAllButton && (
+          <div className="text-center">
+            <Button 
+              variant="default" 
+              size="lg" 
+              className="bg-gradient-police hover:opacity-90 transition-opacity"
+              onClick={() => navigate('/crime-news')}
+              aria-label="View all North Carolina crime news"
+            >
+              View All NC Crime News
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

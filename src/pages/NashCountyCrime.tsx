@@ -1,5 +1,4 @@
 import SEOHead from "@/components/SEOHead";
-import StructuredData from "@/lib/structuredData";
 import RSSFeed from "@/components/RSSFeed";
 
 export default function NashCountyCrime() {
@@ -11,19 +10,14 @@ export default function NashCountyCrime() {
         canonicalUrl="/nash-county"
         keywords="Nash County crime, Nash County police, North Carolina crime news"
       />
-      <StructuredData
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          "name": "Nash County Crime News",
-          "description": "Latest crime news for Nash County, NC.",
-          "publisher": { "@type": "Organization", "name": "Fighting Crime NC" }
-        }}
-      />
-      <main>
-        <h2>Nash County Crime News</h2>
-        <RSSFeed feedUrl="https://rss.app/feeds/t96LtdAzAj7QgM23.xml" />
-        {/* Add NAP if available */}
+      <main className="min-h-screen">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-4xl font-bold mb-2 text-center">Nash County Crime News</h1>
+          <p className="text-center text-muted-foreground mb-8">
+            Latest crime news and police reports for Nash County, North Carolina
+          </p>
+          <RSSFeed feedUrl="https://rss.app/feeds/t96LtdAzAj7QgM23.xml" showViewAllButton={false} />
+        </div>
       </main>
     </>
   );

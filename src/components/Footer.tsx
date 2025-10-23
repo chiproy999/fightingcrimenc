@@ -59,8 +59,32 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold text-foreground mb-4">Resources</h4>
+            <h4 className="text-lg font-semibold text-foreground mb-4">County Coverage</h4>
             <div className="space-y-2">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/nash-county')}
+              >
+                Nash County
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/edgecombe-county')}
+              >
+                Edgecombe County
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
+                onClick={() => navigate('/wilson-county')}
+              >
+                Wilson County
+              </Button>
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -68,30 +92,6 @@ const Footer = () => {
                 onClick={() => navigate('/contact')}
               >
                 Contact Us
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
-                onClick={() => navigate('/submit-tips')}
-              >
-                Crime Prevention
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
-                onClick={() => navigate('/submit-tips')}
-              >
-                Anonymous Tips
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
-                onClick={() => navigate('/')}
-              >
-                Community Safety
               </Button>
             </div>
           </div>

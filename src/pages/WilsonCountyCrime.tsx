@@ -1,5 +1,4 @@
 import SEOHead from "@/components/SEOHead";
-import StructuredData from "@/lib/structuredData";
 import RSSFeed from "@/components/RSSFeed";
 
 export default function WilsonCountyCrime() {
@@ -11,19 +10,14 @@ export default function WilsonCountyCrime() {
         canonicalUrl="/wilson-county"
         keywords="Wilson County crime, Wilson County police, North Carolina crime news"
       />
-      <StructuredData
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          "name": "Wilson County Crime News",
-          "description": "Latest crime news for Wilson County, NC.",
-          "publisher": { "@type": "Organization", "name": "Fighting Crime NC" }
-        }}
-      />
-      <main>
-        <h2>Wilson County Crime News</h2>
-        <RSSFeed feedUrl="https://rss.app/feeds/t16jD7t544Kyum81.xml" />
-        {/* Add NAP if available */}
+      <main className="min-h-screen">
+        <div className="container mx-auto px-4 py-8">
+          <h1 className="text-4xl font-bold mb-2 text-center">Wilson County Crime News</h1>
+          <p className="text-center text-muted-foreground mb-8">
+            Latest crime news and police reports for Wilson County, North Carolina
+          </p>
+          <RSSFeed feedUrl="https://rss.app/feeds/t16jD7t544Kyum81.xml" showViewAllButton={false} />
+        </div>
       </main>
     </>
   );

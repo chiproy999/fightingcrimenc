@@ -17,6 +17,9 @@ const MissingPersons = lazy(() => import("./pages/MissingPersons"));
 const SubmitTips = lazy(() => import("./pages/SubmitTips"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Policy = lazy(() => import("./pages/Policy"));
+const NashCountyCrime = lazy(() => import("./pages/NashCountyCrime"));
+const EdgecombeCountyCrime = lazy(() => import("./pages/EdgecombeCountyCrime"));
+const WilsonCountyCrime = lazy(() => import("./pages/WilsonCountyCrime"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback component
@@ -68,6 +71,9 @@ const App = () => (
                   <Route path="/submit-tips" element={<SubmitTips />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/policy" element={<Policy />} />
+                  <Route path="/nash-county" element={<NashCountyCrime />} />
+                  <Route path="/edgecombe-county" element={<EdgecombeCountyCrime />} />
+                  <Route path="/wilson-county" element={<WilsonCountyCrime />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
