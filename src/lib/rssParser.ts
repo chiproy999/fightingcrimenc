@@ -80,6 +80,45 @@ export const fetchRSSFeed = async (config: RSSFeedConfig): Promise<RSSItem[]> =>
 };
 
 /**
+ * Fetch a single RSS feed directly
+ */
+export const fetchSingleRSSFeed = async (feedUrl: string): Promise<RSSItem[]> => {
+  try {
+    const response = await fetch(feedUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/rss+xml, application/xml, text/xml',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const xmlText = await response.text();
+    const sourceName = extractSourceName(feedUrl);
+    return parseRSSFeed(xmlText, sourceName);
+  } catch (error) {
+    console.error(`Error fetching RSS feed from ${feedUrl}:`, error);
+    throw error;
+  }
+};
+
+/**
+ * Extract source name from feed URL
+ */
+const extractSourceName = (feedUrl: string): string => {
+  if (feedUrl.includes('t96LtdAzAj7QgM23')) {
+    return 'Nash County Sheriff\'s Office';
+  } else if (feedUrl.includes('tOQKMyt76roLN49z')) {
+    return 'Edgecombe County Sheriff\'s Office';
+  } else if (feedUrl.includes('t16jD7t544Kyum81')) {
+    return 'Wilson County Sheriff\'s Office';
+  }
+  return 'NC Law Enforcement';
+};
+
+/**
  * Fetch crime news via Vercel serverless function
  * Uses WRAL RSS feed with AI rewriting for unique content
  */
