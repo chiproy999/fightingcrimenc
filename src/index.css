@@ -115,9 +115,19 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  /* Avoid applying border color to every element globally — this caused
+     thin borders to appear around many elements and broke the intended
+     visual design. Apply border color only where borders are used. */
+  /*
+  * Previously the following rule applied the border color utility to
+  * every element which resulted in unexpected visible borders site-wide:
+  *
+  *   * { @apply border-border; }
+  *
+  * Keep this commented out to preserve the original intent while preventing
+  * the global side-effect. If you want a global border, consider using a
+  * more specific selector (e.g. form controls or card components) instead.
+  */
 
   body {
     @apply bg-background text-foreground;
