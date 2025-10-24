@@ -25,6 +25,9 @@ if (!SUPABASE_PUBLISHABLE_KEY) {
     'Missing Supabase publishable key. Set VITE_SUPABASE_PUBLISHABLE_KEY (or legacy VITE_SUPABASE_ANON_KEY) in your environment.'
   );
 }
+const env = (import.meta as any)?.env || {};
+const SUPABASE_URL = env.VITE_SUPABASE_URL as string;
+const SUPABASE_PUBLISHABLE_KEY = env.VITE_SUPABASE_PUBLISHABLE_KEY as string;
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
