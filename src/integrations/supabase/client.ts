@@ -2,10 +2,29 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from './types';
 
+type SupabaseEnv = {
+  VITE_SUPABASE_URL?: string;
+  VITE_SUPABASE_PUBLISHABLE_KEY?: string;
+  VITE_SUPABASE_ANON_KEY?: string;
+};
+
 // Access env in a way that won't error during type-check when vite types are not loaded
-const env = (import.meta as any)?.env || {};
-const SUPABASE_URL = env.VITE_SUPABASE_URL as string;
-const SUPABASE_PUBLISHABLE_KEY = env.VITE_SUPABASE_ANON_KEY as string;
+const env =
+  ((import.meta as ImportMeta & { env?: SupabaseEnv })?.env as SupabaseEnv | undefined) ?? {};
+const SUPABASE_URL = env.VITE_SUPABASE_URL as string | undefined;
+const SUPABASE_PUBLISHABLE_KEY = (
+  env.VITE_SUPABASE_PUBLISHABLE_KEY || env.VITE_SUPABASE_ANON_KEY
+) as string | undefined;
+
+if (!SUPABASE_URL) {
+  throw new Error('Missing Supabase URL. Set VITE_SUPABASE_URL in your environment.');
+}
+
+if (!SUPABASE_PUBLISHABLE_KEY) {
+  throw new Error(
+    'Missing Supabase publishable key. Set VITE_SUPABASE_PUBLISHABLE_KEY (or legacy VITE_SUPABASE_ANON_KEY) in your environment.'
+  );
+}
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
