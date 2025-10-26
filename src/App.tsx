@@ -76,7 +76,7 @@ const App = () => (
                 </Routes>
               </Suspense>
             </BrowserRouter>
-            <SpeedInsights />
+          <SpeedInsights />
           </TooltipProvider>
         </AuthProvider>
       </QueryClientProvider>
