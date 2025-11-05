@@ -4,7 +4,9 @@ import HeroSection from "@/components/HeroSection";
 import SEOHead from "@/components/SEOHead";
 import RSSFeed from "@/components/RSSFeed";
 import FAQSection from "@/components/FAQSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
 import ComponentErrorBoundary from "@/components/ComponentErrorBoundary";
+import Disclaimer from "@/components/Disclaimer";
 
 // Lazy load below-the-fold components for better performance
 const Footer = lazy(() => import("@/components/Footer"));
@@ -36,9 +38,19 @@ const Index = () => {
         <main id="main-content" role="main">
           <HeroSection />
           
+          {/* Disclaimer */}
+          <div className="container mx-auto container-mobile px-4 py-4">
+            <Disclaimer variant="compact" />
+          </div>
+          
           {/* RSS Feed - High priority content */}
           <ComponentErrorBoundary>
             <RSSFeed />
+          </ComponentErrorBoundary>
+
+          {/* Testimonials Section */}
+          <ComponentErrorBoundary>
+            <TestimonialsSection />
           </ComponentErrorBoundary>
 
           {/* FAQ Section */}

@@ -3,6 +3,7 @@ import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import Disclaimer from "@/components/Disclaimer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -81,6 +82,11 @@ const SubmitTips = () => {
                   <Eye className="mr-1 h-3 w-3" />
                   24/7 Monitoring
                 </Badge>
+              </div>
+              
+              {/* Disclaimer */}
+              <div className="max-w-2xl mx-auto">
+                <Disclaimer variant="compact" />
               </div>
             </div>
           </section>

@@ -12,6 +12,7 @@ const MobileMenu = () => {
   const menuItems = [
     { name: "Home", path: "/", icon: "🏠" },
     { name: "Crime News", path: "/crime-news", icon: "📰" },
+    { name: "Arrests", path: "/arrests", icon: "⚖️" },
     { name: "Who's Wanted", path: "/wanted", icon: "🚨" },
     { name: "Missing Persons", path: "/missing-persons", icon: "👤" },
     { name: "Submit Tips", path: "/submit-tips", icon: "💡" },

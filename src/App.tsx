@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from "react-error-boundary";
 import { AuthProvider } from "@/hooks/useAuth";
+import CookieConsent from "@/components/CookieConsent";
+import Analytics from "@/components/Analytics";
 
 // Lazy load pages for better code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -17,6 +19,8 @@ const MissingPersons = lazy(() => import("./pages/MissingPersons"));
 const SubmitTips = lazy(() => import("./pages/SubmitTips"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Policy = lazy(() => import("./pages/Policy"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const Arrests = lazy(() => import("./pages/Arrests"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 // Loading fallback component
@@ -58,16 +62,20 @@ const App = () => (
             <Toaster />
             <Sonner />
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+              <Analytics />
+              <CookieConsent />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
                   <Route path="/" element={<Index />} />
                   <Route path="/auth" element={<Auth />} />
                   <Route path="/crime-news" element={<CrimeNews />} />
+                  <Route path="/arrests" element={<Arrests />} />
                   <Route path="/wanted" element={<Wanted />} />
                   <Route path="/missing-persons" element={<MissingPersons />} />
                   <Route path="/submit-tips" element={<SubmitTips />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/policy" element={<Policy />} />
+                  <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

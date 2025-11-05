@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
-// TODO: Replace these with your actual IDs (must match index.html)
-const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Get from https://analytics.google.com/
-const META_PIXEL_ID = 'YOUR_PIXEL_ID';      // Get from https://business.facebook.com/events_manager
+// Analytics IDs - These should match the IDs in index.html
+// Get GA4 Measurement ID from: https://analytics.google.com/
+// Get Meta Pixel ID from: https://business.facebook.com/events_manager
+const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Replace with your actual GA4 Measurement ID
+const META_PIXEL_ID = 'YOUR_PIXEL_ID';      // Replace with your actual Meta Pixel ID
 
-export const Analytics = () => {
+const Analytics = () => {
   const location = useLocation();
 
   useEffect(() => {
@@ -23,6 +25,8 @@ export const Analytics = () => {
 
   return null;
 };
+
+export default Analytics;
 
 // Helper functions to track events (use these throughout your app)
 export const trackEvent = (eventName: string, parameters?: Record<string, unknown>) => {

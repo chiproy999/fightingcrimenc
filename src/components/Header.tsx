@@ -32,11 +32,12 @@ const Header = () => {
           </div>
 
           {/* Navigation - Hidden on mobile */}
-          <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
+          <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6" role="navigation" aria-label="Main navigation">
             <Button 
               variant="ghost" 
               className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/')}
+              aria-label="Home"
             >
               Home
             </Button>
@@ -44,13 +45,23 @@ const Header = () => {
               variant="ghost" 
               className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/crime-news')}
+              aria-label="Crime News"
             >
               Crime News
             </Button>
             <Button 
               variant="ghost" 
               className="text-foreground hover:text-primary text-sm"
+              onClick={() => navigate('/arrests')}
+              aria-label="Recent Arrests"
+            >
+              Arrests
+            </Button>
+            <Button 
+              variant="ghost" 
+              className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/wanted')}
+              aria-label="Who's Wanted"
             >
               Who's Wanted
             </Button>
@@ -58,6 +69,7 @@ const Header = () => {
               variant="ghost" 
               className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/missing-persons')}
+              aria-label="Missing Persons"
             >
               Missing Persons
             </Button>
@@ -65,6 +77,7 @@ const Header = () => {
               variant="ghost" 
               className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/submit-tips')}
+              aria-label="Submit Tips"
             >
               Submit Tips
             </Button>
@@ -72,6 +85,7 @@ const Header = () => {
               variant="ghost" 
               className="text-foreground hover:text-primary text-sm"
               onClick={() => navigate('/contact')}
+              aria-label="Contact"
             >
               Contact
             </Button>
