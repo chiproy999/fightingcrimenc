@@ -2,6 +2,7 @@ import SEOHead from "@/components/SEOHead";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import Disclaimer from "@/components/Disclaimer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -71,6 +72,11 @@ const Wanted = () => {
                   Do not attempt to apprehend. Call 911 immediately if spotted.
                 </AlertDescription>
               </Alert>
+              
+              {/* Disclaimer */}
+              <div className="mt-4 max-w-2xl mx-auto">
+                <Disclaimer variant="compact" />
+              </div>
             </div>
 
             {/* Stats */}

@@ -6,6 +6,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import RSSFeed from "@/components/RSSFeed";
 import LoadingState from "@/components/LoadingState";
 import ComponentErrorBoundary from "@/components/ComponentErrorBoundary";
+import Disclaimer from "@/components/Disclaimer";
 import { Shield, Clock, AlertTriangle } from "lucide-react";
 
 const CrimeNews = () => {
@@ -43,10 +44,15 @@ const CrimeNews = () => {
               <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
                 Latest North Carolina Crime News
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-4">
                 Stay informed with real-time updates on criminal activities, law enforcement actions, 
                 and public safety alerts from across all 100 North Carolina counties.
               </p>
+              
+              {/* Disclaimer */}
+              <div className="max-w-2xl mx-auto">
+                <Disclaimer variant="compact" />
+              </div>
             </div>
 
             {/* Stats Cards */}
