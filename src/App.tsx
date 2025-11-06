@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from 'react-helmet-async';
 import { ErrorBoundary } from "react-error-boundary";
 import { AuthProvider } from "@/hooks/useAuth";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 // Lazy load pages for better code splitting
 const Index = lazy(() => import("./pages/Index"));
@@ -75,6 +76,7 @@ const App = () => (
                 </Routes>
               </Suspense>
             </BrowserRouter>
+          <SpeedInsights />
           </TooltipProvider>
         </AuthProvider>
       </QueryClientProvider>
