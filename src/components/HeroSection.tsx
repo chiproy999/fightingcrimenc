@@ -33,16 +33,14 @@ const HeroSection = () => {
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
             Your trusted source for <strong className="text-foreground">real-time NC crime news</strong>,
             <strong className="text-emergency-red"> most wanted alerts</strong>, and
-            <strong className="text-police-blue"> community safety information</strong> in partnership with official agencies.
+            <strong className="text-police-blue"> community safety information</strong>.
           </p>
-
+          
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-2">
-            <Button
-              size="lg"
-              variant="police"
-              className="px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
+            <Button 
+              size="lg" 
+              className="bg-gradient-police text-white hover:shadow-evidence px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
               onClick={() => navigate('/wanted')}
-              aria-label="View list of wanted persons in North Carolina"
             >
               View Wanted Persons
             </Button>
@@ -51,40 +49,16 @@ const HeroSection = () => {
               variant="outline"
               className="border-emergency-red text-emergency-red hover:bg-emergency-red hover:text-white px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
               onClick={() => navigate('/crime-news')}
-              aria-label="Read latest North Carolina crime news and updates"
             >
               Latest Crime News
             </Button>
-            <Button
-              size="lg"
-              variant="police"
-              className="px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
-              onClick={() => navigate('/county-resources')}
-              aria-label="Find official county tip reporting resources"
+            <Button 
+              size="lg" 
+              className="bg-gradient-danger text-white hover:shadow-crime px-6 sm:px-8 py-4 sm:py-6 text-sm sm:text-base lg:text-lg w-full sm:w-auto"
+              onClick={() => navigate('/submit-tips')}
             >
-              County Tip Directory
+              Submit Anonymous Tip
             </Button>
-          </div>
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div className="bg-card/70 backdrop-blur-md p-6 rounded-lg border border-police-blue/30 hover:border-police-blue/50 transition-all duration-300 hover:shadow-evidence">
-              <h3 className="text-2xl font-bold text-police-blue mb-2">Official Tip Guidance</h3>
-              <p className="text-sm text-muted-foreground">
-                We connect you with the verified portals run by North Carolina law enforcement agencies.
-              </p>
-            </div>
-            <div className="bg-card/70 backdrop-blur-md p-6 rounded-lg border border-emergency-red/30 hover:border-emergency-red/50 transition-all duration-300 hover:shadow-crime">
-              <h3 className="text-2xl font-bold text-emergency-red mb-2">Verified Contacts</h3>
-              <p className="text-sm text-muted-foreground">
-                Access trusted non-emergency numbers for the state's largest counties in one place.
-              </p>
-            </div>
-            <div className="bg-card/70 backdrop-blur-md p-6 rounded-lg border border-evidence-green/30 hover:border-evidence-green/50 transition-all duration-300 hover:shadow-glow">
-              <h3 className="text-2xl font-bold text-evidence-green mb-2">Real NC Updates</h3>
-              <p className="text-sm text-muted-foreground">
-                Daily crime alerts aggregated from official police and sheriff departments across North Carolina.
-              </p>
-            </div>
           </div>
         </div>
       </div>
