@@ -117,7 +117,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-8 text-center">
           <div className="text-muted-foreground flex flex-wrap items-center justify-center gap-3">
-            <span>\u00a9 2025 Fighting Crime NC. All rights reserved.</span>
+            <span>© 2025 Fighting Crime NC. All rights reserved.</span>
             <div className="flex items-center gap-2">
               <span className="text-muted-foreground">|</span>
               <Button 
