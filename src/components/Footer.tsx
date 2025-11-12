@@ -73,14 +73,6 @@ const Footer = () => {
                 variant="ghost"
                 size="sm"
                 className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
-                onClick={() => navigate('/contact')}
-              >
-                Contact Us
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="justify-start p-0 h-auto text-muted-foreground hover:text-primary"
                 onClick={() => navigate('/county-resources')}
               >
                 Non-Emergency Numbers

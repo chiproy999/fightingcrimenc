@@ -105,10 +105,10 @@ const FAQSection = () => {
               Have more questions? Need help reporting a crime?
             </p>
             <a
-              href="/contact"
+              href="/county-resources"
               className="inline-flex items-center px-6 py-3 bg-gradient-police text-white rounded-lg hover:shadow-evidence transition-all font-medium"
             >
-              Contact Us
+              County Tip Directory
             </a>
           </div>
         </div>

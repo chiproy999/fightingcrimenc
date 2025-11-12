@@ -75,13 +75,6 @@ const Header = () => {
             >
               Submit Tips
             </Button>
-            <Button 
-              variant="ghost" 
-              className="text-foreground hover:text-primary text-sm"
-              onClick={() => navigate('/contact')}
-            >
-              Contact
-            </Button>
           </nav>
 
           {/* Auth and Emergency Section */}

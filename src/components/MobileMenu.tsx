@@ -15,8 +15,7 @@ const MobileMenu = () => {
     { name: "Who's Wanted", path: "/wanted", icon: "🚨" },
     { name: "Missing Persons", path: "/missing-persons", icon: "👤" },
     { name: "County Tip Directory", path: "/county-resources", icon: "🗺️" },
-    { name: "Submit Tips", path: "/submit-tips", icon: "💡" },
-    { name: "Contact", path: "/contact", icon: "📞" }
+    { name: "Submit Tips", path: "/submit-tips", icon: "💡" }
   ];
 
   return (
