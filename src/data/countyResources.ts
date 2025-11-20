@@ -19,8 +19,8 @@ export const countyResources: CountyResource[] = [
     populationRank: 1,
     populationEstimate: "1,175,021",
     tipWebsite: {
-      label: "Wake County Sheriff's Office Crime Tips",
-      url: "https://www.wake.gov/departments-government/sheriffs-office/services/crime-tips",
+      label: "Raleigh / Wake City-County Bureau of Identification",
+      url: "https://raleighcrimestoppers.org/",
     },
     nonEmergency: {
       agency: "Wake County Sheriff's Office",
@@ -33,8 +33,8 @@ export const countyResources: CountyResource[] = [
     populationRank: 2,
     populationEstimate: "1,143,338",
     tipWebsite: {
-      label: "Charlotte-Mecklenburg Police Online Reporting",
-      url: "https://charlottenc.gov/CMPD/Pages/ReportCrime.aspx",
+      label: "CMPD Online Reporting",
+      url: "https://www.charlottenc.gov/cmpd/Report-a-Crime",
     },
     nonEmergency: {
       agency: "Charlotte-Mecklenburg Police Department",
@@ -47,8 +47,8 @@ export const countyResources: CountyResource[] = [
     populationRank: 3,
     populationEstimate: "546,615",
     tipWebsite: {
-      label: "Greensboro Police Submit a Crime Tip",
-      url: "https://www.greensboro-nc.gov/departments/police/crime-prevention-safety/submit-a-crime-tip",
+      label: "Greensboro / Guilford Crime Stoppers",
+      url: "https://www.ggcrimestoppers.com/",
     },
     nonEmergency: {
       agency: "Greensboro Police Department",
@@ -61,8 +61,8 @@ export const countyResources: CountyResource[] = [
     populationRank: 4,
     populationEstimate: "389,157",
     tipWebsite: {
-      label: "Winston-Salem Police Crime Tip Portal",
-      url: "https://www.cityofws.org/1319/Submit-a-Crime-Tip",
+      label: "Winston-Salem Crime Stoppers",
+      url: "https://www.cityofws.org/FormCenter/Police-Department-Tips-10/Crime-Stoppers-Tip-Form-56",
     },
     nonEmergency: {
       agency: "Winston-Salem Police Department",
@@ -75,8 +75,8 @@ export const countyResources: CountyResource[] = [
     populationRank: 5,
     populationEstimate: "334,728",
     tipWebsite: {
-      label: "Fayetteville Police Submit a Tip",
-      url: "https://www.fayettevillenc.gov/city-services/police/submit-a-tip",
+      label: "Fayetteville / Cumberland Crimestoppers",
+      url: "https://fay-nccrimestoppers.org/",
     },
     nonEmergency: {
       agency: "Fayetteville Police Department",
@@ -117,8 +117,8 @@ export const countyResources: CountyResource[] = [
     populationRank: 8,
     populationEstimate: "259,532",
     tipWebsite: {
-      label: "Union County Sheriff's Office Crime Tips",
-      url: "https://www.unioncountync.gov/government/sheriff-s-office/crime-prevention/crime-tips",
+      label: "Union County Crime Stoppers",
+      url: "https://unioncountycrimestoppers.com/",
     },
     nonEmergency: {
       agency: "Union County Sheriff's Office",
@@ -145,8 +145,8 @@ export const countyResources: CountyResource[] = [
     populationRank: 10,
     populationEstimate: "232,714",
     tipWebsite: {
-      label: "Gaston County Police Crime Information Form",
-      url: "https://www.gastongov.com/FormCenter/Police-12/Crime-Information-Tip-Form-66",
+      label: "Gaston County Crime Stoppers",
+      url: "https://crimestoppersgaston.org/",
     },
     nonEmergency: {
       agency: "Gaston County Police Department",
